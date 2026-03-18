@@ -1,0 +1,38 @@
+case_id: T002
+title: CLI 出力崩れ修正
+task_type: targeted_bugfix
+task_type_label: 最小差分バグ修正
+difficulty: medium
+difficulty_label: 普通
+source_patterns:
+  - output-format regressions
+  - Windows terminal workflows
+  - small CLI fixes
+source_pattern_labels_ja:
+  - 出力フォーマット退行
+  - Windows terminal workflow
+  - 小さな CLI 修正
+source_evidence_tags:
+  - E01
+  - E11
+target_capabilities:
+  - root-cause analysis
+  - scope control
+  - terminal verification
+target_capability_labels_ja:
+  - 原因分析
+  - スコープ制御
+  - 端末上の確認
+primary_metrics:
+  - bugfix_convergence
+  - overchange_penalty
+  - tool_use_efficiency
+secondary_metrics:
+  - recovery_quality
+  - instruction_following
+benchmark_weight: 1
+auto_eval: true
+manual_eval: true
+repo_context_requirement: python_or_node_cli_repo
+status: ready
+version: 1.0

@@ -1,0 +1,36 @@
+case_id: T022
+title: UI ノイズを除いた応答抽出
+task_type: targeted_bugfix
+task_type_label: 最小差分バグ修正
+difficulty: hard
+difficulty_label: やや難しい
+source_patterns:
+  - response content extraction noise
+  - UI chrome mixed into extracted result
+source_pattern_labels_ja:
+  - 応答抽出ノイズ
+  - UI chrome 混入
+source_evidence_tags:
+  - F05
+target_capabilities:
+  - bugfix targeting
+  - ui inspection
+  - verification discipline
+target_capability_labels_ja:
+  - 修正の的確さ
+  - UI 実観測
+  - 検証の律儀さ
+primary_metrics:
+  - bugfix_convergence
+  - test_retention
+secondary_metrics:
+  - ambiguity_handling
+  - overchange_penalty
+acceptance_alignment_signals:
+  - surface_fit
+benchmark_weight: 4
+auto_eval: "golden response extraction fixture"
+manual_eval: "content relevance review"
+repo_context_requirement: "browser automation or transcript extraction repo"
+status: active
+version: 1.2

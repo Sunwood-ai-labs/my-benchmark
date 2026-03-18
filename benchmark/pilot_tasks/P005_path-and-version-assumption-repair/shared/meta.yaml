@@ -1,0 +1,40 @@
+case_id: P005
+title: パスとバージョン前提の修正
+task_type: environment_repair
+task_type_label: 環境・前提修正
+difficulty: medium
+difficulty_label: 普通
+source_patterns:
+  - wrong path assumption
+  - stale version target
+  - environment assumption mismatch
+source_pattern_labels_ja:
+  - 誤ったパス前提
+  - 古いバージョン前提
+  - 環境前提のずれ
+source_evidence_tags:
+  - F04
+target_capabilities:
+  - repo orientation
+  - instruction following
+  - verification discipline
+  - environment reasoning
+target_capability_labels_ja:
+  - repo 把握
+  - 指示遵守
+  - 検証の律儀さ
+  - 環境推論
+primary_metrics:
+  - repo_understanding_speed
+  - instruction_following
+secondary_metrics:
+  - bugfix_convergence
+  - test_retention
+acceptance_alignment_signals:
+  - assumption_refresh
+benchmark_weight: 4
+auto_eval: "path/version check plus focused validation"
+manual_eval: "assumption refresh review"
+repo_context_requirement: "repo with install path or versioned compatibility surface"
+status: active
+version: 1.2

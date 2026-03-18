@@ -1,0 +1,37 @@
+case_id: T009
+title: uv・pytest 失敗収束
+task_type: env_or_ci_repair
+task_type_label: 環境・CI修復
+difficulty: hard
+difficulty_label: 難しい
+source_patterns:
+  - uv plus pytest workflows
+  - Python compatibility fixes
+  - small but real test failures
+source_pattern_labels_ja:
+  - uv + pytest workflow
+  - Python 互換性修正
+  - 小さいが現実的な test failure
+source_evidence_tags:
+  - E04
+target_capabilities:
+  - test-driven bugfixing
+  - toolchain fidelity
+  - scope control
+target_capability_labels_ja:
+  - test 駆動の修正
+  - ツールチェーン順守
+  - スコープ制御
+primary_metrics:
+  - test_retention
+  - bugfix_convergence
+  - instruction_following
+secondary_metrics:
+  - tool_use_efficiency
+  - overchange_penalty
+benchmark_weight: 1
+auto_eval: true
+manual_eval: true
+repo_context_requirement: python_repo_with_pytest
+status: ready
+version: 1.0

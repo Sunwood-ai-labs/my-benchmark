@@ -1,0 +1,35 @@
+case_id: T011
+title: README 先読みの局所修正
+task_type: targeted_bugfix
+task_type_label: 最小差分バグ修正
+difficulty: easy
+difficulty_label: 易しい
+source_patterns:
+  - read-the-README-first workflows
+  - narrow fixes with strong local instructions
+source_pattern_labels_ja:
+  - README 先読み workflow
+  - 強いローカル指示のある局所修正
+source_evidence_tags:
+  - E17
+target_capabilities:
+  - instruction following
+  - repo understanding
+  - minimal diff
+target_capability_labels_ja:
+  - 指示順守
+  - repo 理解
+  - 最小差分
+primary_metrics:
+  - instruction_following
+  - overchange_penalty
+  - repo_understanding_speed
+secondary_metrics:
+  - first_pass_acceptance
+  - tool_use_efficiency
+benchmark_weight: 0.8
+auto_eval: true
+manual_eval: true
+repo_context_requirement: repo_with_clear_readme_and_one_localized_issue
+status: ready
+version: 1.0

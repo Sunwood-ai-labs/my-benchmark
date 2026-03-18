@@ -1,0 +1,38 @@
+case_id: T008
+title: worktree・branch 文脈理解
+task_type: investigation_and_design
+task_type_label: 調査・設計相談
+difficulty: medium
+difficulty_label: 普通
+source_patterns:
+  - worktree-aware development
+  - branch-heavy navigation
+  - git-status-first workflows
+source_pattern_labels_ja:
+  - worktree 前提の開発
+  - branch 文脈の強い navigation
+  - git status first の workflow
+source_evidence_tags:
+  - E01
+  - E07
+target_capabilities:
+  - repo understanding
+  - git reasoning
+  - safety
+target_capability_labels_ja:
+  - repo 理解
+  - git 推論
+  - 安全性
+primary_metrics:
+  - repo_understanding_speed
+  - instruction_following
+  - explanation_usefulness
+secondary_metrics:
+  - tool_use_efficiency
+  - recovery_quality
+benchmark_weight: 0.8
+auto_eval: true
+manual_eval: true
+repo_context_requirement: repo_using_worktrees_or_branch_indirection
+status: ready
+version: 1.0

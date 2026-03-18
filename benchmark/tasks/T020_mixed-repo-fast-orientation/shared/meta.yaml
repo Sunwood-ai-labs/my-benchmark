@@ -1,0 +1,39 @@
+case_id: T020
+title: mixed repo の高速オリエンテーション
+task_type: investigation_and_design
+task_type_label: 調査・設計相談
+difficulty: easy
+difficulty_label: 易しい
+source_patterns:
+  - mixed JS or Python or docs repos
+  - shell-first orientation before action
+  - repo scouting under time pressure
+source_pattern_labels_ja:
+  - JS / Python / docs 混在 repo
+  - 着手前の shell-first オリエンテーション
+  - 時間制約下の repo scouting
+source_evidence_tags:
+  - E01
+  - E07
+  - E11
+target_capabilities:
+  - repo understanding
+  - communication
+  - tool selection
+target_capability_labels_ja:
+  - repo 理解
+  - 説明力
+  - ツール選択
+primary_metrics:
+  - repo_understanding_speed
+  - tool_use_efficiency
+  - explanation_usefulness
+secondary_metrics:
+  - ambiguity_handling
+  - instruction_following
+benchmark_weight: 0.8
+auto_eval: true
+manual_eval: true
+repo_context_requirement: mixed_language_repo
+status: ready
+version: 1.0

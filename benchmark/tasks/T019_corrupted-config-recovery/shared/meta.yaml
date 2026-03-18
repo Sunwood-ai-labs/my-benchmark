@@ -1,0 +1,38 @@
+case_id: T019
+title: 壊れた設定の復旧
+task_type: recovery_and_retry
+task_type_label: 失敗後の復旧・再実行
+difficulty: hard
+difficulty_label: 難しい
+source_patterns:
+  - backup versus corrupted state recovery
+  - tooling config maintenance
+  - state-preserving retry behavior
+source_pattern_labels_ja:
+  - backup と corrupted state の比較回復
+  - tooling config 保守
+  - 状態を保つ retry
+source_evidence_tags:
+  - E06
+  - E10
+target_capabilities:
+  - recovery quality
+  - state comparison
+  - safety
+target_capability_labels_ja:
+  - 復旧品質
+  - 状態比較
+  - 安全性
+primary_metrics:
+  - recovery_quality
+  - instruction_following
+  - overchange_penalty
+secondary_metrics:
+  - bugfix_convergence
+  - explanation_usefulness
+benchmark_weight: 0.9
+auto_eval: true
+manual_eval: true
+repo_context_requirement: local_tooling_config_with_backup
+status: ready
+version: 1.0

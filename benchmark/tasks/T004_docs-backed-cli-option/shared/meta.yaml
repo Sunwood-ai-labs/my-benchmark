@@ -1,0 +1,37 @@
+case_id: T004
+title: CLI オプション追加と docs 同期
+task_type: ambiguous_feature
+task_type_label: 曖昧要求からの新規実装
+difficulty: medium
+difficulty_label: 普通
+source_patterns:
+  - CLI option additions
+  - docs and onboarding polish
+  - lite or reduced-noise modes
+source_pattern_labels_ja:
+  - CLI option 追加
+  - docs と onboarding 整備
+  - lite / 低ノイズ mode
+source_evidence_tags:
+  - E04
+target_capabilities:
+  - feature design
+  - backwards compatibility
+  - docs sync
+target_capability_labels_ja:
+  - 機能設計
+  - 後方互換性
+  - docs 同期
+primary_metrics:
+  - ambiguity_handling
+  - test_retention
+  - instruction_following
+secondary_metrics:
+  - overchange_penalty
+  - explanation_usefulness
+benchmark_weight: 1
+auto_eval: true
+manual_eval: true
+repo_context_requirement: python_or_node_cli_repo_with_docs
+status: ready
+version: 1.0

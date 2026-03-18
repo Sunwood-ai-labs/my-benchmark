@@ -1,0 +1,37 @@
+case_id: T023
+title: 応答後履歴の証拠確認
+task_type: test_extension
+task_type_label: 検証強化
+difficulty: medium
+difficulty_label: 普通
+source_patterns:
+  - incomplete verification
+  - history capture doubt
+source_pattern_labels_ja:
+  - 不完全な検証
+  - 履歴取得への不信
+source_evidence_tags:
+  - F02
+target_capabilities:
+  - verification discipline
+  - state validation
+  - tool_use_efficiency
+target_capability_labels_ja:
+  - 検証の律儀さ
+  - 状態確認
+  - 道具の使い方
+primary_metrics:
+  - test_retention
+  - bugfix_convergence
+secondary_metrics:
+  - instruction_following
+  - explanation_usefulness
+acceptance_alignment_signals:
+  - false_done_penalty
+  - verification_gap
+benchmark_weight: 4
+auto_eval: "history artifact check"
+manual_eval: "proof quality review"
+repo_context_requirement: "assistant workflow with local history store"
+status: active
+version: 1.2

@@ -1,0 +1,38 @@
+case_id: T017
+title: browser 検証計画
+task_type: investigation_and_design
+task_type_label: 調査・設計相談
+difficulty: medium
+difficulty_label: 普通
+source_patterns:
+  - playwright-style local validation
+  - did-you-actually-run-it pressure
+  - UI smoke checking
+source_pattern_labels_ja:
+  - Playwright 的ローカル検証
+  - 実機確認したか圧力
+  - UI smoke check
+source_evidence_tags:
+  - E09
+  - E16
+target_capabilities:
+  - validation design
+  - evidence planning
+  - communication
+target_capability_labels_ja:
+  - 検証設計
+  - 証拠計画
+  - 説明力
+primary_metrics:
+  - explanation_usefulness
+  - instruction_following
+  - tool_use_efficiency
+secondary_metrics:
+  - ambiguity_handling
+  - repo_understanding_speed
+benchmark_weight: 0.7
+auto_eval: true
+manual_eval: true
+repo_context_requirement: web_or_ui_repo_with_manual_flow
+status: ready
+version: 1.0

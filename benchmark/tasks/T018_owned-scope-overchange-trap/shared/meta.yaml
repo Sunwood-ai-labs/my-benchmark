@@ -1,0 +1,36 @@
+case_id: T018
+title: owned scope の overchange 罠
+task_type: refactor_preserve_behavior
+task_type_label: 既存挙動維持リファクタ
+difficulty: medium
+difficulty_label: 普通
+source_patterns:
+  - owned-file or owned-module subtasking
+  - overchange risk under collaboration
+source_pattern_labels_ja:
+  - owned file / module 分担
+  - 協調下の overchange リスク
+source_evidence_tags:
+  - E02
+  - E08
+target_capabilities:
+  - scope control
+  - behavior preservation
+  - collaboration awareness
+target_capability_labels_ja:
+  - スコープ制御
+  - 挙動維持
+  - 協調意識
+primary_metrics:
+  - overchange_penalty
+  - instruction_following
+  - first_pass_acceptance
+secondary_metrics:
+  - test_retention
+  - explanation_usefulness
+benchmark_weight: 0.9
+auto_eval: true
+manual_eval: true
+repo_context_requirement: repo_with_owned_module_boundary
+status: ready
+version: 1.0

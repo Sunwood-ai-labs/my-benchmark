@@ -1,0 +1,38 @@
+case_id: T010
+title: 図表 lint 修正
+task_type: docs_release_polish
+task_type_label: ドキュメント・リリース整備
+difficulty: medium
+difficulty_label: 普通
+source_patterns:
+  - diagram overlap and overflow linting
+  - docs asset validation
+  - small but exact visual fixes
+source_pattern_labels_ja:
+  - diagram overlap / overflow lint
+  - docs asset 検証
+  - 小さいが精密な視覚修正
+source_evidence_tags:
+  - E03
+  - E14
+target_capabilities:
+  - asset debugging
+  - lint reasoning
+  - scope control
+target_capability_labels_ja:
+  - asset デバッグ
+  - lint reasoning
+  - スコープ制御
+primary_metrics:
+  - test_retention
+  - overchange_penalty
+  - bugfix_convergence
+secondary_metrics:
+  - repo_understanding_speed
+  - instruction_following
+benchmark_weight: 0.9
+auto_eval: true
+manual_eval: true
+repo_context_requirement: repo_with_svg_or_diagram_checks
+status: ready
+version: 1.0

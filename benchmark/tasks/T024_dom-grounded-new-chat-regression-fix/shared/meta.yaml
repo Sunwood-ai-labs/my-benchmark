@@ -1,0 +1,38 @@
+case_id: T024
+title: DOM 実観測での新規チャット回帰修正
+task_type: ui_debug
+task_type_label: UI 調査バグ修正
+difficulty: hard
+difficulty_label: やや難しい
+source_patterns:
+  - ui not grounded
+  - new chat regression
+  - selector fallback drift
+source_pattern_labels_ja:
+  - UI 実観測不足
+  - 新規チャット回帰
+  - selector fallback drift
+source_evidence_tags:
+  - F03
+target_capabilities:
+  - ui inspection
+  - bugfix targeting
+  - test_retention
+target_capability_labels_ja:
+  - UI 実観測
+  - 修正の的確さ
+  - テスト維持
+primary_metrics:
+  - bugfix_convergence
+  - test_retention
+secondary_metrics:
+  - ambiguity_handling
+  - overchange_penalty
+acceptance_alignment_signals:
+  - grounding_before_change
+benchmark_weight: 4
+auto_eval: "new-chat smoke"
+manual_eval: "grounding evidence review"
+repo_context_requirement: "browser automation repo"
+status: active
+version: 1.2

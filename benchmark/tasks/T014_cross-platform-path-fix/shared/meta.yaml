@@ -1,0 +1,37 @@
+case_id: T014
+title: cross-shell path 修正
+task_type: targeted_bugfix
+task_type_label: 最小差分バグ修正
+difficulty: medium
+difficulty_label: 普通
+source_patterns:
+  - Windows-first workflows with bash or WSL spillover
+  - path and quoting issues
+  - local-environment repair
+source_pattern_labels_ja:
+  - Windows 主体 + bash / WSL 混在
+  - path / quoting 問題
+  - ローカル環境修復
+source_evidence_tags:
+  - E11
+target_capabilities:
+  - platform reasoning
+  - bugfixing
+  - safety
+target_capability_labels_ja:
+  - プラットフォーム推論
+  - bugfixing
+  - 安全性
+primary_metrics:
+  - bugfix_convergence
+  - instruction_following
+  - test_retention
+secondary_metrics:
+  - tool_use_efficiency
+  - overchange_penalty
+benchmark_weight: 0.9
+auto_eval: true
+manual_eval: true
+repo_context_requirement: repo_with_windows_and_bash_path_mix
+status: ready
+version: 1.0

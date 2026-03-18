@@ -1,0 +1,38 @@
+case_id: T006
+title: CI 版数・成果物不整合修正
+task_type: env_or_ci_repair
+task_type_label: 環境・CI修復
+difficulty: hard
+difficulty_label: 難しい
+source_patterns:
+  - release preparation
+  - workflow and artifact mismatches
+  - docs and release alignment work
+source_pattern_labels_ja:
+  - リリース前準備
+  - workflow と artifact の不整合
+  - docs と release 情報の整合
+source_evidence_tags:
+  - E05
+  - E12
+target_capabilities:
+  - CI reasoning
+  - metadata tracing
+  - preventive repair
+target_capability_labels_ja:
+  - CI 推論
+  - メタデータ追跡
+  - 再発防止修復
+primary_metrics:
+  - bugfix_convergence
+  - instruction_following
+  - test_retention
+secondary_metrics:
+  - tool_use_efficiency
+  - explanation_usefulness
+benchmark_weight: 1.1
+auto_eval: true
+manual_eval: true
+repo_context_requirement: repo_with_release_or_ci_workflow
+status: ready
+version: 1.0

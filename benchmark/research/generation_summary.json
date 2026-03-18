@@ -1,0 +1,33 @@
+{
+  "generated_at": "2026-03-19T00:00:00+09:00",
+  "language": "ja_docs",
+  "revision": "acceptance_alignment_revision",
+  "pilot_case_count": 5,
+  "main_case_count": 25,
+  "total_file_count": 227,
+  "macro_axis_added": "acceptance_alignment_score",
+  "acceptance_signals": [
+    "false_done_penalty",
+    "verification_gap",
+    "surface_fit",
+    "grounding_before_change",
+    "assumption_refresh"
+  ],
+  "added_case_ids": [
+    "T021",
+    "T022",
+    "T023",
+    "T024",
+    "T025"
+  ],
+  "revised_pilot_case_ids": [
+    "P001",
+    "P002",
+    "P003",
+    "P004",
+    "P005"
+  ],
+  "research_additions": [
+    "frustration_signals.md"
+  ]
+}

@@ -1,0 +1,36 @@
+case_id: T021
+title: CLI とチャットのログ面分離
+task_type: targeted_bugfix
+task_type_label: 最小差分バグ修正
+difficulty: medium
+difficulty_label: 普通
+source_patterns:
+  - output surface mismatch
+  - progress observability
+source_pattern_labels_ja:
+  - 出力面の取り違え
+  - 進捗の可観測性不足
+source_evidence_tags:
+  - F01
+target_capabilities:
+  - instruction following
+  - scope control
+  - tool_use_efficiency
+target_capability_labels_ja:
+  - 指示遵守
+  - スコープ制御
+  - 道具の使い方
+primary_metrics:
+  - instruction_following
+  - overchange_penalty
+secondary_metrics:
+  - test_retention
+  - explanation_usefulness
+acceptance_alignment_signals:
+  - surface_fit
+benchmark_weight: 4
+auto_eval: "surface snapshot check"
+manual_eval: "human readability review"
+repo_context_requirement: "chat automation repo"
+status: active
+version: 1.2

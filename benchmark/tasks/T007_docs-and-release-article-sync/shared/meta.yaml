@@ -1,0 +1,38 @@
+case_id: T007
+title: リリース文書同期
+task_type: docs_release_polish
+task_type_label: ドキュメント・リリース整備
+difficulty: medium
+difficulty_label: 普通
+source_patterns:
+  - release notes generation
+  - docs article alignment
+  - git-diff-backed documentation work
+source_pattern_labels_ja:
+  - release note 生成
+  - docs / 記事の整合
+  - git diff 根拠の文書整備
+source_evidence_tags:
+  - E03
+  - E12
+target_capabilities:
+  - evidence-backed writing
+  - git reading
+  - docs consistency
+target_capability_labels_ja:
+  - 根拠付き文書化
+  - git 読解
+  - docs 整合
+primary_metrics:
+  - first_pass_acceptance
+  - explanation_usefulness
+  - instruction_following
+secondary_metrics:
+  - overchange_penalty
+  - tool_use_efficiency
+benchmark_weight: 0.9
+auto_eval: true
+manual_eval: true
+repo_context_requirement: repo_with_release_docs
+status: ready
+version: 1.0

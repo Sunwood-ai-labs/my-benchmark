@@ -1,0 +1,41 @@
+case_id: P002
+title: 完了証拠の末端確認
+task_type: test_extension
+task_type_label: 検証強化
+difficulty: medium
+difficulty_label: 普通
+source_patterns:
+  - incomplete verification
+  - success claimed before downstream proof
+  - history capture doubt
+source_pattern_labels_ja:
+  - 不完全な検証
+  - 末端証拠前の成功宣言
+  - 履歴取得への不信
+source_evidence_tags:
+  - F02
+target_capabilities:
+  - verification discipline
+  - test design
+  - state validation
+  - instruction following
+target_capability_labels_ja:
+  - 検証の律儀さ
+  - テスト設計
+  - 状態確認
+  - 指示遵守
+primary_metrics:
+  - test_retention
+  - instruction_following
+secondary_metrics:
+  - bugfix_convergence
+  - explanation_usefulness
+acceptance_alignment_signals:
+  - false_done_penalty
+  - verification_gap
+benchmark_weight: 5
+auto_eval: "extended e2e or artifact-state assertion"
+manual_eval: "proof-of-completion quality review"
+repo_context_requirement: "automation or assistant workflow with persistent history or artifact"
+status: active
+version: 1.2

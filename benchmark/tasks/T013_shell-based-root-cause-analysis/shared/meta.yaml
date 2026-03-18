@@ -1,0 +1,39 @@
+case_id: T013
+title: shell 証拠ベース原因調査
+task_type: investigation_and_design
+task_type_label: 調査・設計相談
+difficulty: medium
+difficulty_label: 普通
+source_patterns:
+  - shell-first debugging
+  - git and repo exploration before editing
+  - fact-versus-hypothesis separation
+source_pattern_labels_ja:
+  - shell-first debugging
+  - 編集前の git / repo 探索
+  - 事実と仮説の分離
+source_evidence_tags:
+  - E01
+  - E09
+  - E11
+target_capabilities:
+  - investigation
+  - evidence use
+  - communication
+target_capability_labels_ja:
+  - 調査
+  - 証拠活用
+  - 説明力
+primary_metrics:
+  - explanation_usefulness
+  - repo_understanding_speed
+  - ambiguity_handling
+secondary_metrics:
+  - tool_use_efficiency
+  - instruction_following
+benchmark_weight: 0.9
+auto_eval: true
+manual_eval: true
+repo_context_requirement: repo_plus_shell_log_excerpt
+status: ready
+version: 1.0

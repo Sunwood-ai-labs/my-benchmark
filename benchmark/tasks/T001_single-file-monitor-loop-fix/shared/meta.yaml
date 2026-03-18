@@ -1,0 +1,37 @@
+case_id: T001
+title: 所有ファイル限定の監視ループ修正
+task_type: targeted_bugfix
+task_type_label: 最小差分バグ修正
+difficulty: medium
+difficulty_label: 普通
+source_patterns:
+  - owned-file work splits
+  - monitor-loop and deferred-state fixes
+  - JS repo bugfixes
+source_pattern_labels_ja:
+  - owned-file 分担
+  - 監視ループと deferred state 修正
+  - JS repo の bugfix
+source_evidence_tags:
+  - E01
+target_capabilities:
+  - instruction following
+  - narrow bugfixing
+  - verification
+target_capability_labels_ja:
+  - 指示順守
+  - 局所的バグ修正
+  - 検証
+primary_metrics:
+  - instruction_following
+  - overchange_penalty
+  - bugfix_convergence
+secondary_metrics:
+  - test_retention
+  - repo_understanding_speed
+benchmark_weight: 1.2
+auto_eval: true
+manual_eval: true
+repo_context_requirement: js_repo_with_monitor_loop
+status: ready
+version: 1.0

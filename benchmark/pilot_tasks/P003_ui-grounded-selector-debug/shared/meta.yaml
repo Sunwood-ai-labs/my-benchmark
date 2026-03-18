@@ -1,0 +1,40 @@
+case_id: P003
+title: UI 実観測ベースのセレクタ修正
+task_type: ui_debug
+task_type_label: UI 調査バグ修正
+difficulty: hard
+difficulty_label: やや難しい
+source_patterns:
+  - ui not grounded
+  - selector reasoning without actual layout inspection
+  - layout breakage from abstract assumptions
+source_pattern_labels_ja:
+  - UI 実観測不足
+  - 実レイアウト未確認のセレクタ推論
+  - 抽象推論によるレイアウト破壊
+source_evidence_tags:
+  - F03
+target_capabilities:
+  - ui inspection
+  - bugfix targeting
+  - scope control
+  - evidence-based reasoning
+target_capability_labels_ja:
+  - UI 実観測
+  - 修正の的確さ
+  - スコープ制御
+  - 根拠ベース推論
+primary_metrics:
+  - bugfix_convergence
+  - ambiguity_handling
+secondary_metrics:
+  - overchange_penalty
+  - test_retention
+acceptance_alignment_signals:
+  - grounding_before_change
+benchmark_weight: 5
+auto_eval: "selector smoke plus unchanged layout sentinel"
+manual_eval: "grounding evidence review"
+repo_context_requirement: "browser or Electron automation context"
+status: active
+version: 1.2

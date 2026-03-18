@@ -1,0 +1,39 @@
+case_id: T015
+title: 二言語 docs 整合
+task_type: docs_release_polish
+task_type_label: ドキュメント・リリース整備
+difficulty: medium
+difficulty_label: 普通
+source_patterns:
+  - README plus README.ja maintenance
+  - public docs polish
+  - release-facing consistency work
+source_pattern_labels_ja:
+  - README と README.ja の併走保守
+  - public docs 整備
+  - release-facing な整合調整
+source_evidence_tags:
+  - E03
+  - E12
+  - E13
+target_capabilities:
+  - doc consistency
+  - scope control
+  - reader empathy
+target_capability_labels_ja:
+  - 文書整合
+  - スコープ制御
+  - 読み手配慮
+primary_metrics:
+  - first_pass_acceptance
+  - overchange_penalty
+  - explanation_usefulness
+secondary_metrics:
+  - instruction_following
+  - repo_understanding_speed
+benchmark_weight: 0.8
+auto_eval: true
+manual_eval: true
+repo_context_requirement: repo_with_readme_and_readme_ja
+status: ready
+version: 1.0

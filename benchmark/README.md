@@ -44,6 +44,11 @@
 3. 問題なければ `task_index.md` から main corpus を回す。
 4. 採点は `shared/meta.yaml`、`private/rubric.md`、`rubric.yaml` を合わせて行う。
 
+## スコア表示
+- case ごとの rubric は 1 〜 5 のアンカーで採点する。
+- レポートやモデル比較では、その値を 2 倍した 10 点満点表示を標準とする。
+- たとえば `4 / 5` は `8.0 / 10`、`3 / 5` は `6.0 / 10` として扱う。
+
 ## 実行ノイズを避ける運用
 - 同じ workspace を別モデルで使い回すと、前の差分や生成物が次の run に混ざる。
 - runnable なケースは optional に `runtime_fixtures/` に baseline を置き、各評価 run では fresh copy を `validation_runs/` に作って使う。

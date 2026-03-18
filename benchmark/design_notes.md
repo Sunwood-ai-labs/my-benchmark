@@ -7,6 +7,11 @@
 - 出力面の責務分離、UI 実観測、末端証拠確認、path/version 前提確認。
 - blocked を誠実に扱うこと。
 
+## benchmark の基本形
+- 基本形は execution harness ではなく case pack である。
+- つまり「問題文 + 文脈 + 期待解 + rubric」を履歴から作ったこと自体が benchmark の中心成果である。
+- runnable fixture は強化要素であり、全ケース必須ではない。
+
 ## 弱くしか測れない能力
 - cloud 前提の運用オペレーション。
 - 長期の zero-to-one 企画。

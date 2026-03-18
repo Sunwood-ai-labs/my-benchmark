@@ -12,6 +12,12 @@
 - `pilot_tasks/`: 高摩擦 failure を先に見る 5 ケース。ここは「あなたが怒りやすい失敗」を強く測る。
 - `tasks/`: 幅広い実務パターンを測る main corpus。既存 20 ケースに加え、frustration-driven 追加ケースを増やした。
 
+## benchmark 本体と optional 実行層
+- benchmark 本体は `public/problem.md`, `public/context.md`, `shared/meta.yaml`, `private/answer.md`, `private/rubric.md`, `private/traceability.md` の case pack である。
+- つまり基本形は「Q / A / rubric を履歴から作った評価セット」であり、これだけで採点運用できる。
+- `runtime_fixtures/` は benchmark の補助層で、実行型 agent に対して local workspace 付きで試験したいケースだけに付ける。
+- したがって全 case に runnable fixture が必要なわけではない。fixture がない case も benchmark として成立する。
+
 ## 監査性
 - `research/benchmark_sources_manifest.md` で探索した source family を追える。
 - `research/frustration_signals.md` で怒りシグナル由来の設計根拠を確認できる。
@@ -39,7 +45,7 @@
 
 ## 実行ノイズを避ける運用
 - 同じ workspace を別モデルで使い回すと、前の差分や生成物が次の run に混ざる。
-- runnable なケースは `runtime_fixtures/` に baseline を置き、各評価 run では fresh copy を `validation_runs/` に作って使う。
+- runnable なケースは optional に `runtime_fixtures/` に baseline を置き、各評価 run では fresh copy を `validation_runs/` に作って使う。
 - `validation_runs/` は local artifact 用で git ignore 済みなので、比較時の repo 差分ノイズを増やさない。
 
 ## pilot から本番へ拡張する方法

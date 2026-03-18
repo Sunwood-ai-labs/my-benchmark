@@ -2,6 +2,7 @@
 
 pilot 5 件は frustration-driven spine です。
 main corpus は既存の幅広い作業パターンを残しつつ、後半に高摩擦ケースを追加しています。
+各 case は `Q / A / rubric` pack として成立しており、runnable fixture は必要な case にだけ optional で付けます。
 
 ## Pilot
 | case_id | title | difficulty | benchmark_weight | primary_metrics | acceptance_signals | 一言説明 |

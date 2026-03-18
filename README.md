@@ -15,6 +15,12 @@
 3. 問題なければ [benchmark/task_index.md](./benchmark/task_index.md) から main corpus を回します。
 4. 採点は `public/` をモデルに渡し、`private/` と [benchmark/rubric.yaml](./benchmark/rubric.yaml) を evaluator が使います。
 
+## 何が benchmark 本体か
+- benchmark 本体は各 case directory の `public/`, `shared/`, `private/` です。
+- つまり本体は `問題文`, `追加文脈`, `期待解`, `採点基準`, `メタ情報` の pack です。
+- これはローカル履歴から抽出した `Q / A / rubric` の集合として、そのまま評価に使えます。
+- `runtime_fixtures/` や `validation_runs/` は optional で、実行型 agent を smoke check したいときだけ使います。
+
 ## この benchmark が重視するもの
 - 最小差分 bugfix と過剰変更の抑制
 - 指示遵守と repo 理解速度
@@ -29,5 +35,6 @@
 
 ## 繰り返し評価時の注意
 - 同じ workspace を使い回すと、前回モデルの変更が次回 run のノイズになります。
-- runnable fixture は `benchmark/runtime_fixtures/` に tracked な baseline を置き、毎回 fresh copy を `benchmark/validation_runs/` に切って使う運用にしています。
+- runnable fixture は benchmark 本体ではなく、実行確認用の補助層です。
+- 実行確認をするときは `benchmark/runtime_fixtures/` に tracked な baseline を置き、毎回 fresh copy を `benchmark/validation_runs/` に切って使う運用にしています。
 - fresh run は `scripts/new-validation-run.ps1 -FixtureId <fixture_id> -RunLabel <model_label>` で作れます。

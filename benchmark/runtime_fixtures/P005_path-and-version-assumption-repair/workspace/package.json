@@ -1,0 +1,9 @@
+{
+  "name": "acmebench-desktop-smoke",
+  "version": "2.4.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check:docs": "node ./scripts/check-docs.mjs"
+  }
+}

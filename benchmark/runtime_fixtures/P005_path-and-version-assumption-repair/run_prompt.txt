@@ -1,0 +1,53 @@
+Create an agent team in this workspace and solve a benchmark smoke task.
+
+Before making changes, create a short QA inventory that lists:
+- the requested deliverables
+- the files you expect to create or change
+- the final claims you expect to make
+- the checks required before signoff
+
+Team instructions:
+- Spawn exactly 3 teammates yourself.
+- Roles must be coder, designer, and reviewer.
+- coder owns local truth-source inspection and README correction.
+- designer owns wording clarity and keeping the README concise.
+- reviewer owns review, risk finding, and final signoff.
+- Delegate meaningful work to all three teammates before you integrate.
+- Avoid file conflicts by assigning clear ownership.
+- If reviewer finds issues, fix them before finishing.
+- Clean up the team when done.
+
+Benchmark task:
+- This is an instantiated smoke run of benchmark case P005: path-and-version-assumption-repair.
+- Your job is to inspect the local repo first, identify the real Windows config path and current version family, then update only what is necessary.
+- The current README contains stale assumptions on purpose.
+- Prefer local truth sources over generic defaults.
+
+Benchmark public brief:
+- Goal: デフォルト前提で進めず、実際のパスと現行バージョンを確認してから修正方針を決める。
+- Background: 誤った配置先や古い互換前提で進めると、実装自体が合っていても外れた対応になる。
+- Input Context: README、config 相当コード、ログ、version metadata が局所に存在する。
+- Constraints: ローカル証拠より一般論を優先しないこと。未確認の path/version を断定しないこと。
+- Deliverables: 修正済みの前提整理、path/version に合った変更、確認に使ったローカル証拠。
+
+Scope:
+- Work only inside this workspace.
+- You may edit README.md and only any other file that is strictly necessary for correctness.
+- Do not rename files.
+- Do not add dependencies.
+
+Required local evidence:
+- package.json
+- src/config-path.mjs
+- logs/startup.log
+
+Required checks before signoff:
+- Run `npm run check:docs`
+- In the final response, cite which local files established the true path and version.
+
+Final response requirements:
+- Briefly confirm that you spawned the agent team.
+- Report what each teammate actually did.
+- List the files changed.
+- Mention any reviewer issues and how they were resolved.
+- Confirm the executed check results.

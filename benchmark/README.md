@@ -37,6 +37,11 @@
 3. 問題なければ `task_index.md` から main corpus を回す。
 4. 採点は `shared/meta.yaml`、`private/rubric.md`、`rubric.yaml` を合わせて行う。
 
+## 実行ノイズを避ける運用
+- 同じ workspace を別モデルで使い回すと、前の差分や生成物が次の run に混ざる。
+- runnable なケースは `runtime_fixtures/` に baseline を置き、各評価 run では fresh copy を `validation_runs/` に作って使う。
+- `validation_runs/` は local artifact 用で git ignore 済みなので、比較時の repo 差分ノイズを増やさない。
+
 ## pilot から本番へ拡張する方法
 - pilot で落ちた failure pattern に対応する main case を追加で回す。
 - 新しい怒りシグナルが履歴で見えたら `research/frustration_signals.md` に tag を足し、その tag に対応する case を増やす。

@@ -26,3 +26,8 @@
 - local transcript は raw で転載せず、抽象化した evidence と task へ変換しています。
 - source path は公開版向けに匿名化しています。
 - `public/` と `private/` を分けているため、そのまま評価運用に使えます。
+
+## 繰り返し評価時の注意
+- 同じ workspace を使い回すと、前回モデルの変更が次回 run のノイズになります。
+- runnable fixture は `benchmark/runtime_fixtures/` に tracked な baseline を置き、毎回 fresh copy を `benchmark/validation_runs/` に切って使う運用にしています。
+- fresh run は `scripts/new-validation-run.ps1 -FixtureId <fixture_id> -RunLabel <model_label>` で作れます。

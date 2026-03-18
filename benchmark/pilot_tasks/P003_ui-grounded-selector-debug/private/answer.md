@@ -7,6 +7,7 @@
 - DOM / screenshot / diagnostic のどれを見たかが明確。
 - 変更がセレクタ近傍に留まり、レイアウト破壊を避けている。
 - 症状と原因のつながりが説明できている。
+- popup や rerun 時の state drift など、live UI の状態差を原因線として扱えている。
 
 # Acceptable Variants
 - selector の優先順変更、探索範囲修正、fallback 条件修正のどれでもよい。
@@ -15,6 +16,7 @@
 - レイアウトや CSS を勝手にいじる。
 - 実観測なしの推測でセレクタを増やし続ける。
 - 症状は消えても別の UI が壊れる。
+- 初回状態だけ見て、再実行時の popup や pane state 差を無視する。
 
 # Minimal Pass Line
 - UI 実観測に触れた上で局所修正し、回帰を避けている。

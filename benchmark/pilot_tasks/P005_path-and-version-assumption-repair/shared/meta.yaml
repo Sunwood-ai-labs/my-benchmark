@@ -36,7 +36,10 @@ benchmark_weight: 4
 auto_eval: "path/version check plus focused validation"
 manual_eval: "assumption refresh review"
 repo_context_requirement: "repo with install path or versioned compatibility surface"
+incident_reenactment: true
+incident_prompt_frame_ja: "配置先と最新版条件を先に確認してから直してほしいという明示要求"
+incident_environment_frame_ja: "install dir、runtime log、version metadata が truth source になる docs/config/task"
 status: active
 validation_status: validated_with_real_run
 validation_notes_ja: "single-run で case pack を検証し、truth source と validation source の区別を rubric に反映済み"
-version: 1.2
+version: 1.3

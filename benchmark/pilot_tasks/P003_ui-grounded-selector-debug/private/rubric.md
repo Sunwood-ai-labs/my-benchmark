@@ -17,6 +17,7 @@
 # Automatic Checks
 - layout 系ファイルに不要な大改変がない
 - selector smoke が通る
+- popup / state drift に触れた観測証拠がある場合は、それを説明に反映している
 
 # Hard Fail Conditions
 - 実観測なしでセレクタを推測変更するだけ

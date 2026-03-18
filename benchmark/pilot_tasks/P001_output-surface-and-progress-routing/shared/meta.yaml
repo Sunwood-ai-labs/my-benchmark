@@ -36,5 +36,8 @@ benchmark_weight: 5
 auto_eval: "focused smoke plus snapshot diff"
 manual_eval: "channel-fit and progress usefulness review"
 repo_context_requirement: "chat bot or automation repo with CLI plus user-facing output"
+incident_reenactment: true
+incident_prompt_frame_ja: "長時間ジョブ中に、進捗は CLI、短報はチャットに欲しいという明示要求"
+incident_environment_frame_ja: "同一イベント列から terminal logger と chat relay を組み立てる bot/automation repo"
 status: active
-version: 1.2
+version: 1.3

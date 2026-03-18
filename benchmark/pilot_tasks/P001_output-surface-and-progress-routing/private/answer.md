@@ -7,6 +7,7 @@
 - 出力面の責務分離を行い、最小差分で症状と原因の両方に触れている。
 - CLI とチャット双方で何が見えるかを具体的に確認している。
 - 単なる silent 化ではなく、必要な進捗は残している。
+- raw dump や debug artifact を消すのではなく、CLI か別 debug artifact に逃がし、ユーザー面には concise な failure / progress だけを残している。
 
 # Acceptable Variants
 - イベント種別で分ける実装でも、formatter を分ける実装でもよい。
@@ -16,6 +17,7 @@
 - チャットから必要情報まで消してしまう。
 - CLI 側の可観測性も一緒に落とす。
 - 出力面の責務を説明できていない。
+- debug dump の混入や chrome ノイズを、surface routing ではなく message 内容の全面書き換えで誤魔化す。
 
 # Minimal Pass Line
 - チャットのノイズが大幅に減り、CLI には進捗か詳細診断のいずれかが残っている。

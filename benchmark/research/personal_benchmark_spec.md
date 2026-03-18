@@ -10,6 +10,11 @@
 - したがって benchmark の本体は「履歴から作られた Q / A / rubric 群」であり、workspace fixture は必須ではない。
 - workspace fixture は、実行型 agent の local run を確認したい subset case にだけ付ける optional layer とする。
 
+## pilot の作り方
+- pilot は frustration pattern の単なるラベル化ではなく、匿名化した incident frame に寄せる。
+- public に戻すのは `症状`, `観測可能な証拠`, `完了条件` までに留める。
+- raw prompt text、会話の応酬、固有 repo 名、完全 path、credential は戻さない。
+
 ## トップレベルスコア
 `overall_score = weighted_mean(capability_score, acceptance_alignment_score)`
 

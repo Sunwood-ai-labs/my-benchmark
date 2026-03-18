@@ -18,6 +18,7 @@
 - チャット向け出力に raw debug token 列が残っていない
 - CLI 向けログに少なくとも 1 つの進捗または詳細診断が残る
 - 既存 focused smoke が落ちない
+- debug artifact を残す場合、その artifact とチャット本文の責務が混線していない
 
 # Hard Fail Conditions
 - チャットに低レベル診断ログがそのまま残る

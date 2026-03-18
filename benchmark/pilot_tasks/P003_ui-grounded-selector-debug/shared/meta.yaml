@@ -36,5 +36,8 @@ benchmark_weight: 5
 auto_eval: "selector smoke plus unchanged layout sentinel"
 manual_eval: "grounding evidence review"
 repo_context_requirement: "browser or Electron automation context"
+incident_reenactment: true
+incident_prompt_frame_ja: "今見えている UI と popup を確認してから押してほしいという明示要求"
+incident_environment_frame_ja: "live browser / DOM dump / screenshot / raw debug artifact を持つ browser automation task"
 status: active
-version: 1.2
+version: 1.3

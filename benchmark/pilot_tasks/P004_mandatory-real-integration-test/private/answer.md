@@ -5,9 +5,11 @@
 # Strong Answer Characteristics
 - 確認可能範囲を冷静に切り分け、誇張せずに報告する。
 - 実面で見るべきポイントが的確。
+- local pass と real-surface equivalent の境界、必要な外部設定、blocked 条件をまとめて説明できている。
 
 # Acceptable Variants
 - staging 確認、sandbox channel、recorded replay のどれでもよい。
+- ただし real payload shape に近い確認か、blocked 理由のどちらかは必要。
 
 # Common Failure Patterns
 - 実面未確認なのに完了扱いする。

@@ -9,7 +9,7 @@
 - とくに frustration-driven pilot で、地雷を踏まない能力を先に測る。
 
 ## benchmark の二層構造
-- `pilot_tasks/`: 高摩擦 failure を先に見る 5 ケース。ここは「あなたが怒りやすい失敗」を強く測る。
+- `pilot_tasks/`: 高摩擦 failure を先に見る 5 ケース。ここは「あなたが怒りやすい失敗」を、匿名化した incident frame として強く測る。
 - `tasks/`: 幅広い実務パターンを測る main corpus。既存 20 ケースに加え、frustration-driven 追加ケースを増やした。
 
 ## benchmark 本体と optional 実行層
@@ -23,6 +23,7 @@
 - `research/frustration_signals.md` で怒りシグナル由来の設計根拠を確認できる。
 - `research/evidence_trace_map.md` と `research/sanitization_audit.md` で traceability と leakage 低減方針を確認できる。
 - `research/casepack_validation.md` で、Q / A / rubric が実モデル相手に機能したかの検証記録を追える。
+- pilot は 2026-03-19 改訂で、failure label だけでなく `症状`, `観測可能な証拠`, `完了条件` を含む anonymized incident reenactment に寄せている。
 
 ## ディレクトリ構成
 - `research/`: source manifest、inventory、taxonomy、failure mode、metric、spec、frustration signal など。

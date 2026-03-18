@@ -18,6 +18,7 @@
 # Automatic Checks
 - 履歴または成果物に対する assertion が追加されている
 - 既存 test command が通るか、blocked 理由が明記される
+- completion proof に使う artifact 種別が説明されている
 
 # Hard Fail Conditions
 - 末端証拠なしに完了と断定する

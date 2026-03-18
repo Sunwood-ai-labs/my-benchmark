@@ -1,7 +1,7 @@
 # Pilot Task Index
 
-pilot は、履歴の中でもユーザー不満が強く出た failure pattern を優先して選んだ 5 ケースです。
-この版では「怒り」をそのまま点数化せず、acceptance_alignment signal に分解して測ります。
+pilot は、履歴の中でもユーザー不満が強く出た incident を匿名化して再構成した 5 ケースです。
+この版では「怒り」をそのまま点数化せず、症状、観測可能な証拠、完了条件を public に残しつつ、acceptance_alignment signal に分解して測ります。
 
 | 推奨順 | case_id | title | task_type | difficulty | benchmark_weight | acceptance_signal | なぜ pilot に入れたか |
 | --- | --- | --- | --- | --- | --- | --- | --- |

@@ -18,6 +18,7 @@
 # Automatic Checks
 - verified と blocked のどちらかが明確に出ている
 - real surface または代替境界の記述がある
+- 必須外部設定または権限不足がある場合、その不足が明示されている
 
 # Hard Fail Conditions
 - 未確認なのに実面確認済みと主張する

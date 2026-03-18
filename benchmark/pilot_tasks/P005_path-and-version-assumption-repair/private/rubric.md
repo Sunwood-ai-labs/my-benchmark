@@ -19,6 +19,7 @@
 - version truth source が参照されている
 - 誤前提のままの記述が残っていない
 - validation script しか参照していない場合は満点にしない
+- install dir / runtime log / version metadata のどれを使ったかが読める
 
 # Hard Fail Conditions
 - 未確認の path/version を断定する

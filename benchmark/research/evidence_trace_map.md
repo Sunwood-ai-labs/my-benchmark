@@ -28,3 +28,4 @@ raw transcript や private repo 名を露出せずに、ケースの根拠を追
 - ある case が単発の思いつきではなく、繰り返し観測されたパターンに基づくかを監査するときに使う。
 - repo 名や transcript 原文は intentionally 抽象化している。
 - case を更新したら、この表と各 `traceability.md` を同時に更新する。
+- incident reenactment 型の public case では、ここにある evidence family から `症状`, `観測可能な証拠`, `完了条件` だけを戻し、固有名や prompt 原文は戻さない。

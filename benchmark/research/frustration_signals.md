@@ -22,3 +22,8 @@ raw transcript は貼らず、抽象化した failure pattern と source family 
 - あなた向け benchmark では「汎用的に賢いか」より「地雷を踏まないか」の方が重要。
 - とくに hard fail 相当なのは、未確認なのに verified と言うこと、UI を見ずに推測修正すること、出力面を取り違えること。
 - そのため pilot は frustration-driven に再構成し、一般的な難問よりも high-friction failure を先に測る構成にした。
+
+## incident frame への変換
+- pilot では pattern label だけでなく、元 incident の `症状`, `観測可能な証拠`, `完了条件` を匿名化して public problem/context に落とす。
+- ただし raw transcript、会話の応酬、固有 repo 名、完全 path、credential、channel 名は戻さない。
+- public に出してよい具体情報は、fixture や truth source として再現可能な class レベルの名詞に限る。

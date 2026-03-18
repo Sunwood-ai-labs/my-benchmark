@@ -22,6 +22,7 @@
 - `research/benchmark_sources_manifest.md` で探索した source family を追える。
 - `research/frustration_signals.md` で怒りシグナル由来の設計根拠を確認できる。
 - `research/evidence_trace_map.md` と `research/sanitization_audit.md` で traceability と leakage 低減方針を確認できる。
+- `research/casepack_validation.md` で、Q / A / rubric が実モデル相手に機能したかの検証記録を追える。
 
 ## ディレクトリ構成
 - `research/`: source manifest、inventory、taxonomy、failure mode、metric、spec、frustration signal など。

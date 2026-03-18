@@ -37,4 +37,6 @@ auto_eval: "path/version check plus focused validation"
 manual_eval: "assumption refresh review"
 repo_context_requirement: "repo with install path or versioned compatibility surface"
 status: active
+validation_status: validated_with_real_run
+validation_notes_ja: "single-run で case pack を検証し、truth source と validation source の区別を rubric に反映済み"
 version: 1.2

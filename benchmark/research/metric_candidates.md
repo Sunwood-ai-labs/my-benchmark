@@ -6,6 +6,7 @@
 | 指標名 | 何を測るか | なぜ重要か | 計測方法 | 自動 / 手動 | スコア範囲 | 重み | 重みの根拠 | 歪み / 弱点 | 使う証拠 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | acceptance_alignment_score | ユーザー受け入れ条件とのズレをどれだけ避けられるか | あなたの不満は objective pass では拾えないズレを示すため | 5 つの acceptance signal の applicable 平均 | automatic plus manual | 0-5 | 30 | 強い frustration signal が局所的でなく再発しているため | task 設計が悪いと signal が発火しにくい | F01-F05 |
+| delivery_reliability_score | 実行 runner を通したとき clean に完了し、最終応答が素直に届くか | 実務では「正しい修正をした」だけでなく「ちゃんと終わる」ことも重要なため | timeout、manual recovery、stuck shutdown、最終応答到達可否を run log から採点 | automatic plus manual | 0-5 | reporting-only | artifact score が高くても運用体験が悪いケースを分離するため | runner 固有の問題を多少含む | run logs, wrapper logs, session logs |
 
 ## 採用した acceptance signal
 | 指標名 | family | 定義 | 計測方法 | 採用理由 | 不採用理由 / 弱点 |

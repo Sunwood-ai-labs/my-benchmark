@@ -12,6 +12,7 @@
 - 長期の zero-to-one 企画。
 - 人間同士の調整や政治性。
 - 最新の外部 SaaS 事情への適応。
+- wrapper / harness 起因の運用 friction は、task score だけだと過小評価しやすい。そのため実運用では delivery_reliability_score を併記するのが望ましい。
 
 ## Codex と Claude Code で差が出そうな観点
 - Codex は shell-first orientation と局所修正で有利になりやすい。

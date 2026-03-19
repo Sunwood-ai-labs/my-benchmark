@@ -1,0 +1,83 @@
+[
+  {
+    "chart": "token_usage_dashboard_audit",
+    "type": "text_overlaps_other_axes",
+    "source_axes": "Average Tokens per Session",
+    "target_axes": "Total Tokens by Source",
+    "kind": "y_tick",
+    "text": "Claude snapshot kali",
+    "overlap_area": 1382.5
+  },
+  {
+    "chart": "token_usage_dashboard_audit",
+    "type": "text_overlaps_other_axes",
+    "source_axes": "Average Tokens per Session",
+    "target_axes": "Total Tokens by Source",
+    "kind": "y_tick",
+    "text": "Claude snapshot prox",
+    "overlap_area": 1473.5
+  },
+  {
+    "chart": "token_usage_dashboard_audit",
+    "type": "text_overlaps_other_axes",
+    "source_axes": "Average Tokens per Session",
+    "target_axes": "Total Tokens by Source",
+    "kind": "y_tick",
+    "text": "Claude local",
+    "overlap_area": 551.2
+  },
+  {
+    "chart": "token_usage_dashboard_audit",
+    "type": "text_overlaps_other_axes",
+    "source_axes": "Average Tokens per Session",
+    "target_axes": "Total Tokens by Source",
+    "kind": "y_tick",
+    "text": "Codex local",
+    "overlap_area": 484.7
+  },
+  {
+    "chart": "token_usage_dashboard_audit",
+    "type": "text_overlaps_other_axes",
+    "source_axes": "Token Composition by Family",
+    "target_axes": "Most Token-Heavy Sessions",
+    "kind": "y_label",
+    "text": "Million tokens",
+    "overlap_area": 837.6
+  },
+  {
+    "chart": "token_usage_dashboard_audit",
+    "type": "text_overlaps_text",
+    "source_axes": "Total Tokens by Source",
+    "target_axes": "Most Token-Heavy Sessions",
+    "kind": "x_label/title",
+    "text": "Million tokens <> Most Token-Heavy Sessions",
+    "overlap_area": 643.9
+  },
+  {
+    "chart": "token_usage_dashboard_audit",
+    "type": "text_overlaps_text",
+    "source_axes": "Total Tokens by Source",
+    "target_axes": "Average Tokens per Session",
+    "kind": "x_tick/x_tick",
+    "text": "3000 <> 0",
+    "overlap_area": 122.5
+  },
+  {
+    "chart": "token_usage_dashboard_audit",
+    "type": "text_overlaps_text",
+    "source_axes": "Total Tokens by Source",
+    "target_axes": "Average Tokens per Session",
+    "kind": "annotation/y_tick",
+    "text": "2690.1M <> Codex local",
+    "overlap_area": 614.5
+  },
+  {
+    "chart": "token_usage_dashboard_audit",
+    "type": "text_overlaps_text",
+    "source_axes": "Average Tokens per Session",
+    "target_axes": "Token Composition by Family",
+    "kind": "x_label/title",
+    "text": "Thousand tokens per session <> Token Composition by Family",
+    "overlap_area": 1490.0
+  }
+]

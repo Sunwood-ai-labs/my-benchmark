@@ -1,6 +1,6 @@
 # Agent Interaction Analysis
 
-Generated at: 2026-03-19T15:58:21.479277+09:00
+Generated at: 2026-03-19T16:33:16.725790+09:00
 
 ## Scope
 
@@ -11,13 +11,13 @@ Generated at: 2026-03-19T15:58:21.479277+09:00
 
 ## Dataset Overview
 
-- Total normalized messages: **64,257**
-- Full interaction messages: **64,257**
+- Total normalized messages: **64,497**
+- Full interaction messages: **64,497**
 - Prompt-only fallback messages: **0**
-- User messages: **6,090**
-- Assistant messages: **58,167**
-- Tool invocations captured: **61,696**
-- Distinct sessions / threads: **1,139**
+- User messages: **6,135**
+- Assistant messages: **58,362**
+- Tool invocations captured: **62,180**
+- Distinct sessions / threads: **1,167**
 
 ### Source Inventory
 
@@ -26,17 +26,17 @@ Generated at: 2026-03-19T15:58:21.479277+09:00
 | claude         | local_home                           | C:\Users\Aslan\.claude                              |                    85 |                    209 |                   2 |                 0 |                 0 | True             | False                   |                       |                        |                   |
 | claude         | data_snapshot:kali-aslan-20260319    | D:\Prj\my-bench\data\kali-aslan-20260319\.claude    |                     7 |                    244 |                   2 |                10 |               366 | True             | False                   |                       |                        |                   |
 | claude         | data_snapshot:prox-200-maki-20260319 | D:\Prj\my-bench\data\prox-200-maki-20260319\.claude |                   423 |                    601 |                  34 |                79 |               455 | True             | False                   |                       |                        |                   |
-| codex          | local_home                           | C:\Users\Aslan\.codex                               |                       |                        |                     |                   |                   |                  |                         |                   771 | True                   | True              |
+| codex          | local_home                           | C:\Users\Aslan\.codex                               |                       |                        |                     |                   |                   |                  |                         |                   799 | True                   | True              |
 
 ### Message Volume by Agent Family / Origin
 
 | agent_family   | origin                               | role      |   messages |
 |:---------------|:-------------------------------------|:----------|-----------:|
 | claude         | data_snapshot:prox-200-maki-20260319 | assistant |      32810 |
-| codex          | local_home                           | assistant |      16901 |
+| codex          | local_home                           | assistant |      17096 |
 | claude         | local_home                           | assistant |       6979 |
 | claude         | data_snapshot:prox-200-maki-20260319 | user      |       3140 |
-| codex          | local_home                           | user      |       2419 |
+| codex          | local_home                           | user      |       2464 |
 | claude         | data_snapshot:kali-aslan-20260319    | assistant |       1477 |
 | claude         | local_home                           | user      |        486 |
 | claude         | data_snapshot:kali-aslan-20260319    | user      |         45 |
@@ -47,7 +47,7 @@ Generated at: 2026-03-19T15:58:21.479277+09:00
 
 | agent_family   | origin                               | project_or_title               |   user_messages |   avg_chars |
 |:---------------|:-------------------------------------|:-------------------------------|----------------:|------------:|
-| codex          | local_home                           | onizuka-game-agi-co            |             502 |       269.1 |
+| codex          | local_home                           | onizuka-game-agi-co            |             517 |       285.4 |
 | claude         | data_snapshot:prox-200-maki-20260319 | cbot                           |             327 |       697.1 |
 | claude         | data_snapshot:prox-200-maki-20260319 | mao-army-dashboard             |             314 |      1016.4 |
 | codex          | local_home                           | harina-v3                      |             299 |       150.8 |
@@ -59,16 +59,16 @@ Generated at: 2026-03-19T15:58:21.479277+09:00
 | claude         | local_home                           | desktop-pet-mitarashi          |             150 |      1632.6 |
 | codex          | local_home                           | MysticLibrary                  |             136 |       689.2 |
 | claude         | data_snapshot:prox-200-maki-20260319 | last-train                     |             120 |       543   |
+| codex          | local_home                           | my-bench                       |             117 |       626   |
 | claude         | data_snapshot:prox-200-maki-20260319 | claude-glm-actions-lab-sandbox |             106 |       619.5 |
-| codex          | local_home                           | my-bench                       |              95 |       640.6 |
 | claude         | data_snapshot:prox-200-maki-20260319 | ai-agent-desktop-ubuntu        |              94 |       942.1 |
 
 ### Active Hours (JST)
 
 |   hour_jst |   user_messages |   share_pct |
 |-----------:|----------------:|------------:|
-|          0 |             389 |         6.4 |
-|          1 |             460 |         7.6 |
+|          0 |             389 |         6.3 |
+|          1 |             460 |         7.5 |
 |          2 |             416 |         6.8 |
 |          3 |             289 |         4.7 |
 |          4 |             196 |         3.2 |
@@ -82,23 +82,23 @@ Generated at: 2026-03-19T15:58:21.479277+09:00
 |         12 |              55 |         0.9 |
 |         13 |             109 |         1.8 |
 |         14 |             243 |         4   |
-|         15 |             157 |         2.6 |
-|         16 |             207 |         3.4 |
+|         15 |             158 |         2.6 |
+|         16 |             251 |         4.1 |
 |         17 |              96 |         1.6 |
 |         18 |             108 |         1.8 |
-|         19 |             321 |         5.3 |
-|         20 |             278 |         4.6 |
-|         21 |             573 |         9.4 |
-|         22 |             687 |        11.3 |
-|         23 |             954 |        15.7 |
+|         19 |             321 |         5.2 |
+|         20 |             278 |         4.5 |
+|         21 |             573 |         9.3 |
+|         22 |             687 |        11.2 |
+|         23 |             954 |        15.6 |
 
 ### Language Mix
 
 | language   |   user_messages |   share_pct |
 |:-----------|----------------:|------------:|
-| mixed      |            3694 |        60.7 |
-| ja         |            1222 |        20.1 |
-| en         |            1170 |        19.2 |
+| mixed      |            3721 |        60.7 |
+| ja         |            1236 |        20.1 |
+| en         |            1174 |        19.1 |
 | other      |               4 |         0.1 |
 
 ### Frequent User Terms
@@ -109,32 +109,32 @@ Generated at: 2026-03-19T15:58:21.479277+09:00
 | 作成       |    2664 |
 | remotion |    1840 |
 | issue    |    1815 |
-| claude   |    1707 |
-| ファイル     |    1458 |
-| run      |    1456 |
-| ui       |    1432 |
-| only     |    1404 |
-| code     |    1398 |
-| use      |    1376 |
-| 完了       |    1363 |
+| claude   |    1708 |
+| run      |    1473 |
+| ファイル     |    1461 |
+| only     |    1455 |
+| ui       |    1446 |
+| code     |    1417 |
+| do       |    1402 |
+| use      |    1390 |
+| 完了       |    1369 |
 | size     |    1340 |
 | lines    |    1336 |
-| do       |    1304 |
 | pr       |    1281 |
-| codex    |    1264 |
-| files    |    1243 |
-| test     |    1240 |
+| files    |    1271 |
+| of       |    1269 |
+| codex    |    1265 |
+| are      |    1250 |
+| test     |    1241 |
 | チーム      |    1240 |
-| of       |    1235 |
-| if       |    1208 |
-| are      |    1204 |
-| コミット     |    1187 |
+| if       |    1216 |
+| コミット     |    1191 |
 | ux       |    1186 |
 | discord  |    1186 |
 | タスク      |    1180 |
-| qa       |    1115 |
+| qa       |    1147 |
+| by       |    1107 |
 | github   |    1095 |
-| by       |    1093 |
 
 ## Topic / Genre Analysis
 
@@ -142,15 +142,15 @@ Generated at: 2026-03-19T15:58:21.479277+09:00
 
 | category                 |   user_messages |   avg_chars |   share_pct |
 |:-------------------------|----------------:|------------:|------------:|
-| other                    |            2492 |       147.5 |        40.9 |
-| implementation           |            1135 |      3019.9 |        18.6 |
-| automation_orchestration |             776 |       945   |        12.7 |
-| design_ui                |             405 |      1729.3 |         6.7 |
-| review_qa                |             378 |       579.2 |         6.2 |
-| analysis_research        |             311 |       911.1 |         5.1 |
+| other                    |            2503 |       146.9 |        40.8 |
+| implementation           |            1140 |      3012.2 |        18.6 |
+| automation_orchestration |             788 |       940   |        12.8 |
+| design_ui                |             406 |      1725.5 |         6.6 |
+| review_qa                |             384 |       588.6 |         6.3 |
+| analysis_research        |             321 |       899.8 |         5.2 |
 | debug_fix                |             226 |       737.1 |         3.7 |
 | docs_writing             |             204 |       304   |         3.3 |
-| setup_config             |             138 |       633.5 |         2.3 |
+| setup_config             |             138 |       633.5 |         2.2 |
 | data_ml                  |              25 |      2481   |         0.4 |
 
 ### Session Size Snapshot
@@ -179,29 +179,29 @@ Generated at: 2026-03-19T15:58:21.479277+09:00
 
 | agent_family   | tool_name     |   invocations |
 |:---------------|:--------------|--------------:|
-| codex          | shell_command |         34455 |
+| codex          | shell_command |         34806 |
 | claude         | Bash          |          7227 |
-| codex          | apply_patch   |          3962 |
+| codex          | apply_patch   |          4018 |
 | claude         | Read          |          3216 |
 | claude         | Edit          |          1819 |
-| codex          | js_repl       |          1719 |
+| codex          | js_repl       |          1721 |
 | claude         | SendMessage   |          1691 |
 | claude         | Write         |          1372 |
 | claude         | TaskUpdate    |           781 |
 | claude         | Glob          |           616 |
-| codex          | update_plan   |           514 |
-| codex          | spawn_agent   |           405 |
+| codex          | update_plan   |           521 |
+| codex          | spawn_agent   |           427 |
 | claude         | TeamDelete    |           360 |
 | claude         | TaskCreate    |           348 |
-| codex          | view_image    |           305 |
+| codex          | view_image    |           318 |
 | claude         | TaskList      |           301 |
+| codex          | close_agent   |           301 |
 | claude         | Task          |           295 |
 | codex          | wait          |           292 |
-| codex          | close_agent   |           289 |
-| codex          | wait_agent    |           257 |
+| codex          | wait_agent    |           274 |
 
 ## Notes And Caveats
 
-- Claude `history.jsonl` is treated as prompt-only fallback because it can overlap with richer `projects/*.jsonl` transcripts.
+- Claude `history.jsonl` is treated as prompt-only fallback because it can overlap with richer `projects/**/*.jsonl` transcripts.
 - Codex message extraction intentionally ignores developer/system scaffolding and `reasoning` items, focusing on user-visible user/assistant messages plus tool calls.
 - Imported snapshot roots may overlap with local roots; normalization deduplicates at the message key level where stable identifiers exist.

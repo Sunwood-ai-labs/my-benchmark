@@ -1,0 +1,5 @@
+agent_family,origin,total_tokens,sessions,avg_tokens_per_session,input_tokens,cached_input_tokens,output_tokens,reasoning_output_tokens
+codex,local_home,2690104443,672,4003131.6116071427,2672366096,2411790464,17738347,7719806
+claude,local_home,86698761,55,1576341.1090909091,86021326,112180408,677435,0
+claude,data_snapshot:prox-200-maki-20260319,25949788,297,87373.02356902357,22233300,678223680,3716488,0
+claude,data_snapshot:kali-aslan-20260319,1323208,4,330802.0,1175790,57097216,147418,0

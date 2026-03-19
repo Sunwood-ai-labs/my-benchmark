@@ -491,6 +491,38 @@ def parse_timestamp_value(value: Any) -> pd.Timestamp | pd.NaT:
     return pd.to_datetime(value, utc=True, errors="coerce")
 
 
+def int_or_zero(value: Any) -> int:
+    if value is None or value == "" or isinstance(value, bool):
+        return 0
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        try:
+            return int(float(value))
+        except (TypeError, ValueError):
+            return 0
+
+
+def extract_claude_usage(message: dict[str, Any] | Any) -> dict[str, int]:
+    usage = message.get("usage") if isinstance(message, dict) else {}
+    if not isinstance(usage, dict):
+        usage = {}
+    input_tokens = int_or_zero(usage.get("input_tokens"))
+    output_tokens = int_or_zero(usage.get("output_tokens"))
+    cached_input_tokens = int_or_zero(usage.get("cached_input_tokens") or usage.get("cache_read_input_tokens"))
+    reasoning_output_tokens = int_or_zero(usage.get("reasoning_output_tokens"))
+    total_tokens = int_or_zero(usage.get("total_tokens"))
+    if total_tokens == 0:
+        total_tokens = input_tokens + output_tokens
+    return {
+        "usage_input_tokens": input_tokens,
+        "usage_output_tokens": output_tokens,
+        "usage_cached_input_tokens": cached_input_tokens,
+        "usage_reasoning_output_tokens": reasoning_output_tokens,
+        "usage_total_tokens": total_tokens,
+    }
+
+
 def clean_text_for_analysis(text: str) -> str:
     cleaned = normalize_whitespace(text)
     cleaned = re.sub(r"```[\s\S]*?```", " ", cleaned)
@@ -641,7 +673,7 @@ Generated at: {pd.Timestamp.now(tz='Asia/Tokyo').isoformat()}
 
 ## Notes And Caveats
 
-- Claude `history.jsonl` is treated as prompt-only fallback because it can overlap with richer `projects/*.jsonl` transcripts.
+- Claude `history.jsonl` is treated as prompt-only fallback because it can overlap with richer `projects/**/*.jsonl` transcripts.
 - Codex message extraction intentionally ignores developer/system scaffolding and `reasoning` items, focusing on user-visible user/assistant messages plus tool calls.
 - Imported snapshot roots may overlap with local roots; normalization deduplicates at the message key level where stable identifiers exist.
 """
@@ -709,6 +741,7 @@ def parse_claude(roots: list[ClaudeRoot]) -> tuple[list[dict[str, Any]], list[di
 
                     text, tool_names = flatten_claude_message_blocks(content)
                     model = message.get("model") if isinstance(message, dict) else None
+                    usage_metrics = extract_claude_usage(message)
                     key = f"claude:{session_id}:{raw_uuid}"
 
                     if role in {"user", "assistant"} and key not in seen_message_ids:
@@ -732,6 +765,7 @@ def parse_claude(roots: list[ClaudeRoot]) -> tuple[list[dict[str, Any]], list[di
                                 "model": model,
                                 "phase": None,
                                 "event_type": record_type,
+                                **usage_metrics,
                             }
                         )
 
@@ -784,6 +818,11 @@ def parse_claude(roots: list[ClaudeRoot]) -> tuple[list[dict[str, Any]], list[di
                         "model": None,
                         "phase": "history_only",
                         "event_type": "history_prompt",
+                        "usage_input_tokens": 0,
+                        "usage_output_tokens": 0,
+                        "usage_cached_input_tokens": 0,
+                        "usage_reasoning_output_tokens": 0,
+                        "usage_total_tokens": 0,
                     }
                 )
 
@@ -858,6 +897,11 @@ def parse_codex(roots: list[CodexRoot]) -> tuple[list[dict[str, Any]], list[dict
                             "model": None,
                             "phase": None,
                             "event_type": "user_message",
+                            "usage_input_tokens": 0,
+                            "usage_output_tokens": 0,
+                            "usage_cached_input_tokens": 0,
+                            "usage_reasoning_output_tokens": 0,
+                            "usage_total_tokens": 0,
                         }
                     )
                     continue
@@ -892,6 +936,11 @@ def parse_codex(roots: list[CodexRoot]) -> tuple[list[dict[str, Any]], list[dict
                             "model": None,
                             "phase": obj.get("phase"),
                             "event_type": "assistant_message",
+                            "usage_input_tokens": 0,
+                            "usage_output_tokens": 0,
+                            "usage_cached_input_tokens": 0,
+                            "usage_reasoning_output_tokens": 0,
+                            "usage_total_tokens": 0,
                         }
                     )
                 elif payload_type in {"function_call", "custom_tool_call", "web_search_call"}:
@@ -930,6 +979,106 @@ def parse_codex(roots: list[CodexRoot]) -> tuple[list[dict[str, Any]], list[dict
                 tools.append(record)
 
     return messages, tools, inventory
+
+
+def load_codex_thread_usage(codex_root: CodexRoot) -> dict[str, dict[str, Any]]:
+    state_db = codex_root.root / "state_5.sqlite"
+    rows: dict[str, dict[str, Any]] = {}
+    if not state_db.exists():
+        return rows
+    try:
+        with sqlite3.connect(state_db) as conn:
+            for row in conn.execute("select id, cwd, title, tokens_used from threads"):
+                thread_id, cwd, title, tokens_used = row
+                if not isinstance(thread_id, str):
+                    continue
+                rows[thread_id] = {
+                    "thread_title": title,
+                    "cwd": cwd,
+                    "project_name": Path(cwd.replace('\\\\?\\', '')).name if isinstance(cwd, str) and cwd else None,
+                    "tokens_used": int_or_zero(tokens_used),
+                }
+    except sqlite3.DatabaseError:
+        return {}
+    return rows
+
+
+def parse_codex_token_usage(roots: list[CodexRoot]) -> list[dict[str, Any]]:
+    records_by_key: dict[tuple[str, str], dict[str, Any]] = {}
+
+    for codex_root in roots:
+        thread_rows = load_codex_thread_usage(codex_root)
+        for session_file in discover_codex_session_files(codex_root):
+            meta_thread_id = session_file.stem
+            session_cwd = None
+            best_snapshot: dict[str, Any] | None = None
+            with session_file.open("r", encoding="utf-8") as handle:
+                for raw_line in handle:
+                    line = raw_line.strip()
+                    if not line:
+                        continue
+                    try:
+                        obj = json.loads(line)
+                    except json.JSONDecodeError:
+                        continue
+                    if obj.get("type") == "session_meta":
+                        payload = obj.get("payload", {})
+                        meta_thread_id = payload.get("id") or meta_thread_id
+                        session_cwd = payload.get("cwd")
+                        continue
+                    if obj.get("type") != "event_msg":
+                        continue
+                    payload = obj.get("payload", {})
+                    if payload.get("type") != "token_count":
+                        continue
+                    info = payload.get("info") or {}
+                    totals = info.get("total_token_usage") or {}
+                    total_tokens = int_or_zero(totals.get("total_tokens"))
+                    if total_tokens == 0:
+                        continue
+                    candidate = {
+                        "agent_family": "codex",
+                        "origin": codex_root.origin_label,
+                        "session_id": meta_thread_id,
+                        "timestamp": obj.get("timestamp"),
+                        "project_name": Path(session_cwd.replace('\\\\?\\', '')).name if isinstance(session_cwd, str) and session_cwd else None,
+                        "thread_title": None,
+                        "token_source": "codex_token_count",
+                        "input_tokens": int_or_zero(totals.get("input_tokens")),
+                        "cached_input_tokens": int_or_zero(totals.get("cached_input_tokens")),
+                        "output_tokens": int_or_zero(totals.get("output_tokens")),
+                        "reasoning_output_tokens": int_or_zero(totals.get("reasoning_output_tokens")),
+                        "total_tokens": total_tokens,
+                    }
+                    if best_snapshot is None or candidate["total_tokens"] >= best_snapshot["total_tokens"]:
+                        best_snapshot = candidate
+            key = (codex_root.origin_label, meta_thread_id)
+            thread_info = thread_rows.get(meta_thread_id, {})
+            if best_snapshot is None:
+                tokens_used = int_or_zero(thread_info.get("tokens_used"))
+                if tokens_used == 0:
+                    continue
+                best_snapshot = {
+                    "agent_family": "codex",
+                    "origin": codex_root.origin_label,
+                    "session_id": meta_thread_id,
+                    "timestamp": None,
+                    "project_name": thread_info.get("project_name"),
+                    "thread_title": thread_info.get("thread_title"),
+                    "token_source": "codex_threads_table",
+                    "input_tokens": 0,
+                    "cached_input_tokens": 0,
+                    "output_tokens": 0,
+                    "reasoning_output_tokens": 0,
+                    "total_tokens": tokens_used,
+                }
+            else:
+                if not best_snapshot.get("project_name"):
+                    best_snapshot["project_name"] = thread_info.get("project_name")
+                best_snapshot["thread_title"] = thread_info.get("thread_title")
+            records_by_key[key] = best_snapshot
+
+    return list(records_by_key.values())
 
 
 def main() -> None:
@@ -977,6 +1126,101 @@ def main() -> None:
     session_snapshot = session_summary.sort_values("total_messages", ascending=False).head(15).copy()
     session_snapshot["avg_chars"] = session_snapshot["avg_chars"].round(1)
     session_snapshot["duration_minutes"] = session_snapshot["duration_minutes"].round(1)
+
+    claude_token_sessions = (
+        messages_df[messages_df["agent_family"] == "claude"]
+        .groupby(["agent_family", "origin", "session_id"], dropna=False)
+        .agg(
+            input_tokens=("usage_input_tokens", "sum"),
+            cached_input_tokens=("usage_cached_input_tokens", "sum"),
+            output_tokens=("usage_output_tokens", "sum"),
+            reasoning_output_tokens=("usage_reasoning_output_tokens", "sum"),
+            total_tokens=("usage_total_tokens", "sum"),
+            project_name=("project_name", "first"),
+            thread_title=("thread_title", "first"),
+            first_timestamp=("timestamp_jst", "min"),
+        )
+        .reset_index()
+    )
+    claude_token_sessions["token_source"] = "claude_message_usage"
+
+    codex_token_sessions = pd.DataFrame(parse_codex_token_usage(codex_roots))
+    if codex_token_sessions.empty:
+        codex_token_sessions = pd.DataFrame(
+            columns=[
+                "agent_family",
+                "origin",
+                "session_id",
+                "timestamp",
+                "first_timestamp",
+                "project_name",
+                "thread_title",
+                "token_source",
+                "input_tokens",
+                "cached_input_tokens",
+                "output_tokens",
+                "reasoning_output_tokens",
+                "total_tokens",
+            ]
+        )
+    else:
+        codex_token_sessions["first_timestamp"] = codex_token_sessions["timestamp"].map(parse_timestamp_value)
+
+    token_sessions = pd.concat(
+        [
+            claude_token_sessions[
+                [
+                    "agent_family",
+                    "origin",
+                    "session_id",
+                    "project_name",
+                    "thread_title",
+                    "token_source",
+                    "input_tokens",
+                    "cached_input_tokens",
+                    "output_tokens",
+                    "reasoning_output_tokens",
+                    "total_tokens",
+                    "first_timestamp",
+                ]
+            ],
+            codex_token_sessions[
+                [
+                    "agent_family",
+                    "origin",
+                    "session_id",
+                    "project_name",
+                    "thread_title",
+                    "token_source",
+                    "input_tokens",
+                    "cached_input_tokens",
+                    "output_tokens",
+                    "reasoning_output_tokens",
+                    "total_tokens",
+                    "first_timestamp",
+                ]
+            ],
+        ],
+        ignore_index=True,
+    )
+    token_sessions["project_or_title"] = token_sessions["project_name"].fillna(token_sessions["thread_title"]).fillna("(unknown)")
+    token_sessions = token_sessions[token_sessions["total_tokens"] > 0].copy()
+    token_sessions["first_timestamp"] = pd.to_datetime(token_sessions["first_timestamp"], utc=True, errors="coerce")
+    token_by_source = (
+        token_sessions.groupby(["agent_family", "origin"], dropna=False)
+        .agg(
+            total_tokens=("total_tokens", "sum"),
+            sessions=("session_id", "nunique"),
+            avg_tokens_per_session=("total_tokens", "mean"),
+            input_tokens=("input_tokens", "sum"),
+            cached_input_tokens=("cached_input_tokens", "sum"),
+            output_tokens=("output_tokens", "sum"),
+            reasoning_output_tokens=("reasoning_output_tokens", "sum"),
+        )
+        .reset_index()
+        .sort_values("total_tokens", ascending=False)
+    )
+    top_token_sessions = token_sessions.sort_values("total_tokens", ascending=False).head(20).copy()
 
     top_projects = (
         user_df.assign(project_or_title=user_df["project_name"].fillna(user_df["thread_title"]).fillna("(unknown)"))
@@ -1044,6 +1288,9 @@ def main() -> None:
     top_categories.to_csv(OUTPUT_ROOT / "top_categories.csv", index=False)
     top_tools.to_csv(OUTPUT_ROOT / "top_tools.csv", index=False)
     inventory_df.to_csv(OUTPUT_ROOT / "source_inventory.csv", index=False)
+    token_sessions.to_csv(OUTPUT_ROOT / "token_usage_by_session.csv", index=False)
+    token_by_source.to_csv(OUTPUT_ROOT / "token_usage_by_source.csv", index=False)
+    top_token_sessions.to_csv(OUTPUT_ROOT / "top_token_sessions.csv", index=False)
 
     summary_payload = {
         "message_count": int(len(messages_df)),
@@ -1051,6 +1298,8 @@ def main() -> None:
         "assistant_message_count": int(len(assistant_df)),
         "tool_invocation_count": int(len(tools_df)),
         "session_count": int(messages_df["session_id"].nunique()),
+        "token_session_count": int(len(token_sessions)),
+        "total_tracked_tokens": int(token_sessions["total_tokens"].sum()) if not token_sessions.empty else 0,
         "top_category": top_categories.iloc[0]["category"] if not top_categories.empty else None,
         "top_language": language_mix.iloc[0]["language"] if not language_mix.empty else None,
         "top_project": top_projects.iloc[0]["project_or_title"] if not top_projects.empty else None,
@@ -1114,6 +1363,7 @@ def main() -> None:
     print(f"User messages: {len(user_df):,}")
     print(f"Assistant messages: {len(assistant_df):,}")
     print(f"Sessions: {messages_df['session_id'].nunique():,}")
+    print(f"Tracked tokens: {int(token_sessions['total_tokens'].sum()):,}")
     print(f"Outputs: {OUTPUT_ROOT}")
 
 

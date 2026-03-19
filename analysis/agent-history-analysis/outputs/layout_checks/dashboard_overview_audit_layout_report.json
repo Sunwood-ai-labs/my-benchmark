@@ -1,0 +1,146 @@
+[
+  {
+    "chart": "dashboard_overview_audit",
+    "type": "text_overlaps_other_axes",
+    "source_axes": "Projects With The Most User Prompts",
+    "target_axes": "Top User Request Categories",
+    "kind": "y_tick",
+    "text": "desktop-pet-mitarashi",
+    "overlap_area": 1494.9
+  },
+  {
+    "chart": "dashboard_overview_audit",
+    "type": "text_overlaps_other_axes",
+    "source_axes": "Projects With The Most User Prompts",
+    "target_axes": "Top User Request Categories",
+    "kind": "y_tick",
+    "text": "Cinderella",
+    "overlap_area": 324.2
+  },
+  {
+    "chart": "dashboard_overview_audit",
+    "type": "text_overlaps_other_axes",
+    "source_axes": "Projects With The Most User Prompts",
+    "target_axes": "Top User Request Categories",
+    "kind": "y_tick",
+    "text": "cc-Agent-teams-sandbox",
+    "overlap_area": 1759.2
+  },
+  {
+    "chart": "dashboard_overview_audit",
+    "type": "text_overlaps_other_axes",
+    "source_axes": "Projects With The Most User Prompts",
+    "target_axes": "Top User Request Categories",
+    "kind": "y_tick",
+    "text": "sat-cafe",
+    "overlap_area": 124.7
+  },
+  {
+    "chart": "dashboard_overview_audit",
+    "type": "text_overlaps_other_axes",
+    "source_axes": "Projects With The Most User Prompts",
+    "target_axes": "Top User Request Categories",
+    "kind": "y_tick",
+    "text": "video-background-remover",
+    "overlap_area": 1988.4
+  },
+  {
+    "chart": "dashboard_overview_audit",
+    "type": "text_overlaps_other_axes",
+    "source_axes": "Projects With The Most User Prompts",
+    "target_axes": "Top User Request Categories",
+    "kind": "y_tick",
+    "text": "harina-v3",
+    "overlap_area": 264.7
+  },
+  {
+    "chart": "dashboard_overview_audit",
+    "type": "text_overlaps_other_axes",
+    "source_axes": "Projects With The Most User Prompts",
+    "target_axes": "Top User Request Categories",
+    "kind": "y_tick",
+    "text": "mao-army-dashboard",
+    "overlap_area": 1442.4
+  },
+  {
+    "chart": "dashboard_overview_audit",
+    "type": "text_overlaps_other_axes",
+    "source_axes": "Projects With The Most User Prompts",
+    "target_axes": "Top User Request Categories",
+    "kind": "y_tick",
+    "text": "onizuka-game-agi-co",
+    "overlap_area": 1377.7
+  },
+  {
+    "chart": "dashboard_overview_audit",
+    "type": "text_overlaps_other_axes",
+    "source_axes": "Message Volume by Source",
+    "target_axes": "Projects With The Most User Prompts",
+    "kind": "y_tick",
+    "text": "Claude snapshot prox",
+    "overlap_area": 1458.2
+  },
+  {
+    "chart": "dashboard_overview_audit",
+    "type": "text_overlaps_other_axes",
+    "source_axes": "Message Volume by Source",
+    "target_axes": "Projects With The Most User Prompts",
+    "kind": "y_tick",
+    "text": "Codex local",
+    "overlap_area": 469.4
+  },
+  {
+    "chart": "dashboard_overview_audit",
+    "type": "text_overlaps_other_axes",
+    "source_axes": "Message Volume by Source",
+    "target_axes": "Projects With The Most User Prompts",
+    "kind": "y_tick",
+    "text": "Claude local",
+    "overlap_area": 535.9
+  },
+  {
+    "chart": "dashboard_overview_audit",
+    "type": "text_overlaps_other_axes",
+    "source_axes": "Message Volume by Source",
+    "target_axes": "Projects With The Most User Prompts",
+    "kind": "y_tick",
+    "text": "Claude snapshot kali",
+    "overlap_area": 1367.2
+  },
+  {
+    "chart": "dashboard_overview_audit",
+    "type": "text_overlaps_text",
+    "source_axes": "Language Mix",
+    "target_axes": "Message Volume by Source",
+    "kind": "x_label/title",
+    "text": "Share of user prompts (%) <> Message Volume by Source",
+    "overlap_area": 1987.9
+  },
+  {
+    "chart": "dashboard_overview_audit",
+    "type": "text_overlaps_text",
+    "source_axes": "Top User Request Categories",
+    "target_axes": "Most Used Tools",
+    "kind": "x_label/title",
+    "text": "Share of prompts (%) <> Most Used Tools",
+    "overlap_area": 51.6
+  },
+  {
+    "chart": "dashboard_overview_audit",
+    "type": "text_overlaps_text",
+    "source_axes": "Top User Request Categories",
+    "target_axes": "Projects With The Most User Prompts",
+    "kind": "annotation/y_tick",
+    "text": "40.8% <> onizuka-game-agi-co",
+    "overlap_area": 486.2
+  },
+  {
+    "chart": "dashboard_overview_audit",
+    "type": "text_overlaps_text",
+    "source_axes": "Projects With The Most User Prompts",
+    "target_axes": "Message Volume by Source",
+    "kind": "x_tick/x_tick",
+    "text": "600 <> 0",
+    "overlap_area": 122.5
+  }
+]

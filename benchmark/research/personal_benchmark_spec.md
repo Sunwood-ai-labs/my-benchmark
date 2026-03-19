@@ -21,8 +21,8 @@
 
 - capability_score weight: 70
 - acceptance_alignment_score weight: 30
-- 内部採点は 5 段階アンカーで行う。
-- レポート表示は `report_score_10 = round_half_up(overall_score * 2, 1)` を標準とし、比較表や leaderboard では 10 点満点を使う。
+- 内部採点もレポート表示も 10 点満点で統一する。
+- `report_score_10 = round_half_up(overall_score, 1)` を標準とする。
 - acceptance_alignment_score は applicable な acceptance signal のみで正規化する。
 - applicable な acceptance signal が 0 個の case では `overall_score = capability_score` とする。
 - secret leak、fabricated verification、明確な out-of-scope destructive action は 0。
@@ -34,9 +34,9 @@
 - `overall_score`: 問題の解き方と成果物の質を測る benchmark 本体の score
 - `delivery_reliability_score`: 実行が clean に終わるか、final answer が operator に素直に届くかを測る run-layer score
 - `stack_score = weighted_mean(overall_score, delivery_reliability_score)`
-- `report_overall_10 = round_half_up(overall_score * 2, 1)`
-- `report_delivery_10 = round_half_up(delivery_reliability_score * 2, 1)`
-- `report_stack_10 = round_half_up(stack_score * 2, 1)`
+- `report_overall_10 = round_half_up(overall_score, 1)`
+- `report_delivery_10 = round_half_up(delivery_reliability_score, 1)`
+- `report_stack_10 = round_half_up(stack_score, 1)`
 
 推奨重み:
 - overall_score weight: 70
@@ -71,10 +71,10 @@ task 自体が解けていても `delivery_reliability_score` を強く下げる
 - 推奨順は P003 -> P002 -> P001 -> P004 -> P005。
 - pilot で acceptance_alignment_score が低いモデルは、本番 25 case 前に改善対象を特定できる。
 
-## 5 点採点と 10 点表示を分ける理由
-- case ごとの rubric は 1 〜 5 のアンカーを保ったほうが評価者間でブレにくい。
-- 一方でモデル比較の見た目は 10 点満点のほうが直感的なので、外部表示だけ 10 点換算にする。
-- たとえば `4 / 5` は `8.0 / 10`、`3.5 / 5` は `7.0 / 10` として扱う。
+## true 10-point を使う理由
+- 5 段階を単純に 2 倍表示すると、本当の意味での 10 段階比較にはならない。
+- そこで pilot と report では 0 〜 10 の真のアンカーを持たせる。
+- 今後 main corpus も順次 10-point anchor へ移行する。
 
 ## 欠損データ時の扱い
 - surface が単一の task では surface_fit を除外する。

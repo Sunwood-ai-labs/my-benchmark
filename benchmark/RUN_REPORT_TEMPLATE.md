@@ -21,8 +21,7 @@
 
 ### CASE_ID
 
-- score_internal:
-- score_report_10:
+- score_10:
 - verdict:
 - score_reason:
 - evidence_used:

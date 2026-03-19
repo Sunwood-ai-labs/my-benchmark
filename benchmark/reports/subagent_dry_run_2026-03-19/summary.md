@@ -27,11 +27,11 @@
 
 ## Scores
 
-| case_id | score_internal | score_report_10 | verdict |
-| --- | --- | --- | --- |
-| P001 | 3.0 / 5 | 6.0 / 10 | semantic fit is good, but evidence is thin |
-| P002 | 3.5 / 5 | 7.0 / 10 | best response in the sample, but still not fully demonstrated |
-| P005 | 3.0 / 5 | 6.0 / 10 | good grounding direction, but not enough proof |
+| case_id | score_10 | verdict |
+| --- | --- | --- |
+| P001 | 6.0 / 10 | semantic fit is good, but evidence is thin |
+| P002 | 7.0 / 10 | best response in the sample, but still not fully demonstrated |
+| P005 | 6.0 / 10 | good grounding direction, but not enough proof |
 
 ## Actual Run Notes
 

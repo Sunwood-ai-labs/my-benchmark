@@ -31,8 +31,7 @@
 
 ### P001
 
-- `score_internal`: `3.0 / 5`
-- `score_report_10`: `6.0 / 10`
+- `score_10`: `6.0 / 10`
 - `verdict`: `semantic fit is good, but evidence is thin`
 - `score_reason`:
   - shared event を sink-specific formatter で分離する提案は task に合っている
@@ -51,8 +50,7 @@
 
 ### P002
 
-- `score_internal`: `3.5 / 5`
-- `score_report_10`: `7.0 / 10`
+- `score_10`: `7.0 / 10`
 - `verdict`: `best response in the sample, but still not fully demonstrated`
 - `score_reason`:
   - `送信できた` / `応答が見えた` から永続化確認へ success condition を引き上げた
@@ -72,8 +70,7 @@
 
 ### P005
 
-- `score_internal`: `3.0 / 5`
-- `score_report_10`: `6.0 / 10`
+- `score_10`: `6.0 / 10`
 - `verdict`: `good grounding direction, but not enough proof`
 - `score_reason`:
   - install 実装、起動ログ、version metadata を根拠に docs/examples を合わせる方向は正しい

@@ -4,8 +4,7 @@
 
 - run_id:
 - case_id:
-- score_internal:
-- score_report_10:
+- score_10:
 - verdict:
 
 ## Why This Score

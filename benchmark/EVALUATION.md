@@ -23,7 +23,7 @@ repo root ごと benchmark を渡さない。`private/`、`shared/`、`research/
 - `delivery_reliability_score`
   wrapper / orchestrator 経由で clean に運用できたか
 
-通常の比較では `0-10` 表示を使う。
+現在の benchmark は true `0-10` を canonical score として扱う。5 段階を単純に 2 倍表示する運用はやめる。
 
 ## SWE-bench っぽい運用方針
 

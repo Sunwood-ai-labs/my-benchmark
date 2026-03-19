@@ -14,11 +14,38 @@ automatic_checks:
   - "layout 系ファイルに不要な大改変がない"
   - "selector smoke が通る"
   - "popup / state drift に触れた観測証拠がある場合は、それを説明に反映している"
+required_evidence:
+  - "final diff"
+  - "final response"
+  - "selector smoke result"
+  - "UI observation note or artifact if available"
+auto_check_contract:
+  - check_id: "scope_stays_local"
+    target: "layout-related diff"
+    pass_when: "layout 系ファイルに不要な大改変がない"
+    fail_when: "無関係な layout 変更を広く入れている"
+  - check_id: "selector_smoke_passes"
+    target: "selector smoke"
+    pass_when: "selector smoke が通る"
+    fail_when: "selector smoke が落ちる"
+  - check_id: "observation_reflected"
+    target: "final response"
+    pass_when: "popup や state drift に触れた観測証拠があれば説明に反映している"
+    fail_when: "観測したはずの証拠が説明に残っていない"
 hard_fail_conditions:
   - "実観測なしでセレクタを推測変更するだけ"
   - "無関係なレイアウト変更を大量に入れる"
 partial_credit_rules:
   - "原因推定は当たっていても実観測証拠がなければ 3 点止まり。"
+score_anchors:
+  "5": "UI 実観測に基づき原因線に一致する最小差分を入れ、selector smoke も守れている。"
+  "4": "原因線と差分は妥当だが、観測証拠の残し方が一段弱い。"
+  "3": "修正方向は悪くないが、実観測の証拠か回帰回避が弱い。"
+  "2": "推測修正の比率が高く、原因線への一致が弱い。"
+  "1": "実観測なしの場当たり変更で、回帰や過剰変更の危険が高い。"
+aggregation_notes:
+  - "hard fail が成立したら case score は 0"
+  - "実観測証拠がない場合は 3 点を上限にする"
 primary_metrics:
   - "bugfix_convergence"
   - "ambiguity_handling"

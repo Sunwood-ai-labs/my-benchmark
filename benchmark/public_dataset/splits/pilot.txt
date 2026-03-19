@@ -1,0 +1,5 @@
+P001_output-surface-and-progress-routing
+P002_end-to-end-proof-of-completion
+P003_ui-grounded-selector-debug
+P004_mandatory-real-integration-test
+P005_path-and-version-assumption-repair

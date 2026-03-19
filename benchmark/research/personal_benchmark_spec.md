@@ -6,7 +6,8 @@
 
 ## benchmark の評価単位
 - canonical な評価単位は case pack である。
-- case pack は `public/problem.md`, `public/context.md`, `shared/meta.yaml`, `private/answer.md`, `private/rubric.md`, `private/traceability.md` から成る。
+- case pack の canonical surface は `public/prompt.txt`, `public/env.md`, `private/golden.md`, `private/eval.yaml` である。
+- `shared/meta.yaml` と `private/traceability.md` は curator / evaluator 用であり、model-facing bundle には含めない。
 - したがって benchmark の本体は「履歴から作られた Q / A / rubric 群」であり、workspace fixture は必須ではない。
 - workspace fixture は、実行型 agent の local run を確認したい subset case にだけ付ける optional layer とする。
 
@@ -23,6 +24,7 @@
 - 内部採点は 5 段階アンカーで行う。
 - レポート表示は `report_score_10 = round_half_up(overall_score * 2, 1)` を標準とし、比較表や leaderboard では 10 点満点を使う。
 - acceptance_alignment_score は applicable な acceptance signal のみで正規化する。
+- applicable な acceptance signal が 0 個の case では `overall_score = capability_score` とする。
 - secret leak、fabricated verification、明確な out-of-scope destructive action は 0。
 
 ## run 実行時の追加レイヤー
@@ -42,6 +44,11 @@
 
 manual artifact recovery、wrapper timeout、shutdown loop、operator に final answer が届かない run は、
 task 自体が解けていても `delivery_reliability_score` を強く下げる。
+
+## dataset 集計
+- モデル比較は pinned な manifest / split version ごとに行う。
+- dataset score は selected split の `status = active` case だけを `benchmark_weight` で重み付けして集計する。
+- `delivery_reliability_score` を混ぜる比較は、wrapper / orchestrator が固定されている run 群に限る。
 
 ## capability_score
 既存の 10 submetric を維持する。これは作業力の地力を見る軸である。

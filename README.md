@@ -11,7 +11,11 @@
 - `benchmark/tasks/`
   main corpus
 - `benchmark/cases_manifest.jsonl`
-  全 case の machine-readable manifest
+  model-facing の stripped manifest
+- `benchmark/private_cases_manifest.jsonl`
+  evaluator-facing の internal manifest
+- `benchmark/public_dataset/`
+  モデルに渡すための public-only bundle
 - `benchmark/splits/pilot.txt`
   pilot split
 - `benchmark/splits/main.txt`
@@ -32,10 +36,10 @@
 ## 使い方
 
 1. `benchmark/splits/pilot.txt` か `benchmark/splits/main.txt` から case を選ぶ
-2. モデルには `public/prompt.txt` と `public/env.md` だけを渡す
+2. モデルには `benchmark/public_dataset/` 側の `cases_manifest.jsonl` と各 case の `public/` だけを渡す
 3. evaluator は `private/golden.md` と `private/eval.yaml` で採点する
 4. 必要な case だけ `runtime_fixtures/` で実行確認する
 
-case metadata を更新したら `node scripts/build-benchmark-manifest.mjs` で manifest と split を再生成します。
+case metadata を更新したら `node scripts/build-benchmark-manifest.mjs` で manifest、public bundle、split を再生成します。
 
 詳しくは [benchmark/README.md](./benchmark/README.md) を参照してください。

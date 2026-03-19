@@ -1,0 +1,1 @@
+短時間で回せるローカル browser validation の手順を作り、何を見れば pass/fail かを明確にしてください。

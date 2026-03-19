@@ -27,6 +27,8 @@
 - `private/traceability.md`
   ローカル incident との対応関係。
 
+model-facing bundle では `public/prompt.txt` と `public/env.md` だけを配る。mirror、`shared/`、`private/` は evaluator / curator 用である。
+
 ## 何を public に置くか
 
 `public/` は issue text に近い面であり、次だけを置く。
@@ -49,6 +51,9 @@
 - hard fail 条件
 - overchange / false done / verification gap の扱い
 - traceability と leakage guardrail
+- required evidence
+- auto-check contract
+- 1-5 score anchor
 
 ## SWE-bench との対応
 
@@ -58,10 +63,31 @@
 - `private/eval.yaml` = hidden tests + human rubric のハイブリッド
 - `runtime_fixtures/` = runnable subset 用の optional environment
 
+## `private/eval.yaml` の最小 contract
+
+少なくとも次を持つ。
+
+- `required_evidence`
+  採点時に必ず見る artifact
+- `automatic_checks`
+  自動評価の要点
+- `auto_check_contract`
+  check ごとの target / pass_when / fail_when
+- `hard_fail_conditions`
+  即失格条件
+- `score_anchors`
+  1-5 の anchor
+- `partial_credit_rules`
+  満点未満の扱い
+
 ## 追加の機械可読面
 
 - `benchmark/cases_manifest.jsonl`
-  全 case の dataset manifest
+  model-facing stripped manifest
+- `benchmark/private_cases_manifest.jsonl`
+  evaluator-facing internal manifest
+- `benchmark/public_dataset/`
+  model-facing public-only bundle
 - `benchmark/splits/pilot.txt`
   pilot split
 - `benchmark/splits/main.txt`

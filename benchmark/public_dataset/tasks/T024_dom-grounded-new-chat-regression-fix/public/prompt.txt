@@ -1,0 +1,1 @@
+DOM または screenshot を確認して、new chat 回帰の原因 selector を特定し修正してください。

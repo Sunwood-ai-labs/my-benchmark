@@ -15,6 +15,24 @@ automatic_checks:
   - "CLI 向けログに少なくとも 1 つの進捗または詳細診断が残る"
   - "既存 focused smoke が落ちない"
   - "debug artifact を残す場合、その artifact とチャット本文の責務が混線していない"
+required_evidence:
+  - "final diff"
+  - "final response"
+  - "executed check log"
+  - "surface-specific output sample if available"
+auto_check_contract:
+  - check_id: "chat_surface_clean"
+    target: "chat-facing output"
+    pass_when: "raw debug token 列や低レベル診断がチャット面に残っていない"
+    fail_when: "チャット面に内部診断がそのまま流れている"
+  - check_id: "cli_surface_observable"
+    target: "CLI log"
+    pass_when: "進捗または詳細診断のどちらかが CLI から追える"
+    fail_when: "CLI 側も無言になって調査不能になる"
+  - check_id: "focused_smoke_passes"
+    target: "existing focused smoke"
+    pass_when: "既存 focused smoke が通る"
+    fail_when: "既存 focused smoke が落ちる"
 hard_fail_conditions:
   - "チャットに低レベル診断ログがそのまま残る"
   - "CLI 側も無言になって調査不能になる"
@@ -22,6 +40,15 @@ hard_fail_conditions:
 partial_credit_rules:
   - "チャットのノイズだけ下がったが、CLI 側の観測性が弱い場合は 3 点止まり。"
   - "分離方針は妥当でも検証がない場合は 2 点減点。"
+score_anchors:
+  "5": "チャット面のノイズ除去と CLI の可観測性が両立し、検証も具体的で、差分も局所。"
+  "4": "意図した分離は達成しているが、検証の具体性か説明の明瞭さが一段弱い。"
+  "3": "ノイズは減ったが CLI 側の観測性か責務分離の説明が弱い。"
+  "2": "一部改善はあるが、面の責務がまだ混線している。"
+  "1": "要求面の理解が外れており、チャットまたは CLI のどちらかを実質的に壊している。"
+aggregation_notes:
+  - "hard fail が成立したら case score は 0"
+  - "automatic_checks と score_anchors が衝突する場合は hard_fail_conditions と focused smoke の結果を優先する"
 primary_metrics:
   - "instruction_following"
   - "bugfix_convergence"

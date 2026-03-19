@@ -1,0 +1,1 @@
+version の source of truth をたどり、最小の workflow または metadata 修正でズレを止めてください。

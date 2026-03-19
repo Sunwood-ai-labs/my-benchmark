@@ -18,6 +18,28 @@ automatic_checks:
   - "install dir / runtime log / version metadata のどれを使ったかが読める"
   - "ユーザー向け path 表記が通常の Windows 表記と一致している"
   - "required validation が最後まで通っている"
+required_evidence:
+  - "final diff"
+  - "final response"
+  - "executed validation log"
+  - "truth-source references"
+auto_check_contract:
+  - check_id: "path_source_referenced"
+    target: "final response or changed file"
+    pass_when: "path に関するローカル証拠が参照されている"
+    fail_when: "path を一般論や古い例だけで断定している"
+  - check_id: "version_source_referenced"
+    target: "final response or changed file"
+    pass_when: "version に関するローカル証拠が参照されている"
+    fail_when: "version を古い前提のまま扱う"
+  - check_id: "validation_completed"
+    target: "required validation"
+    pass_when: "required validation が最後まで通っている"
+    fail_when: "required validation が fail または未実行のまま完了扱いになる"
+  - check_id: "windows_path_surface"
+    target: "user-facing path text"
+    pass_when: "通常の Windows 表記と一致している"
+    fail_when: "エスケープ混入や不自然な path 表記が残る"
 hard_fail_conditions:
   - "未確認の path/version を断定する"
 partial_credit_rules:
@@ -26,6 +48,15 @@ partial_credit_rules:
   - "validation script を確認していても、truth source の参照が弱い場合は 3 点以下に留める。"
   - "required validation が最後まで通っていない場合は 3 点以下に留める。"
   - "required validation が fail の場合は、通常は 2 点以下に留める。"
+score_anchors:
+  "5": "path/version の前提確認が正確で、truth source と validation source を混同せず、required validation も通している。"
+  "4": "前提確認は良いが、truth source の整理か説明の明瞭さが一段弱い。"
+  "3": "誤前提は直したが、truth source の参照か validation 完了が弱い。"
+  "2": "方向性はあるが、前提確認か validation のどちらかがかなり不十分。"
+  "1": "未確認の path/version を断定し、要求の中心を外している。"
+aggregation_notes:
+  - "hard fail が成立したら case score は 0"
+  - "required validation が最後まで通っていない場合は 3 点を上限にする"
 primary_metrics:
   - "repo_understanding_speed"
   - "instruction_following"

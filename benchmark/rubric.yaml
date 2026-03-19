@@ -142,4 +142,11 @@ manual_evaluation:
 missing_data_policy:
   when_checks_missing: "task 側で代替可能な metric だけに絞って採点する"
   when_signal_not_applicable: "acceptance_alignment_score は applicable signal だけで正規化する"
+  when_no_signal_applies: "case の overall_score は capability_score のみで計算する"
   when_evidence_conflicts: "narrative claim より runnable local check を優先する"
+dataset_aggregation:
+  pinned_version_rule: "同じ manifest / split version 内でだけ比較する"
+  case_inclusion_rule: "selected split の status=active case だけを集計する"
+  case_weight_formula: "sum(case_overall_score * benchmark_weight) / sum(benchmark_weight)"
+  acceptance_axis_rule: "case ごとに applicable acceptance signal だけで正規化する"
+  delivery_overlay_rule: "delivery_reliability_score と stack_score は wrapper / orchestrator が固定された run 群でだけ比較する"

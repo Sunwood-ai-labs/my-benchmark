@@ -1,6 +1,6 @@
 # Task Index
 
-この index は human-readable 一覧です。dataset としての正は [cases_manifest.jsonl](./cases_manifest.jsonl) と [splits](./splits) にあります。
+この index は human-readable 一覧です。model-facing dataset としての正は [cases_manifest.jsonl](./cases_manifest.jsonl) と [public_dataset](./public_dataset)、evaluator-facing dataset は [private_cases_manifest.jsonl](./private_cases_manifest.jsonl) にあります。
 pilot 5 件は high-friction split、main corpus 25 件は broader coding-work split です。
 各 case は `public` と `private` を分けた SWE-bench-style case pack として扱います。
 

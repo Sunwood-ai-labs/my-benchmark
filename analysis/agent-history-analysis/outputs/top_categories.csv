@@ -1,0 +1,11 @@
+category,user_messages,avg_chars,share_pct
+other,2492,147.5,40.9
+implementation,1135,3019.9,18.6
+automation_orchestration,776,945.0,12.7
+design_ui,405,1729.3,6.7
+review_qa,378,579.2,6.2
+analysis_research,311,911.1,5.1
+debug_fix,226,737.1,3.7
+docs_writing,204,304.0,3.3
+setup_config,138,633.5,2.3
+data_ml,25,2481.0,0.4

@@ -9,8 +9,9 @@
 
 ## benchmark の基本形
 - 基本形は execution harness ではなく case pack である。
-- つまり「問題文 + 文脈 + 期待解 + rubric」を履歴から作ったこと自体が benchmark の中心成果である。
+- つまり「実入力に近い public prompt + 最低限の environment + accepted fix + rubric」を履歴から作ったこと自体が benchmark の中心成果である。
 - runnable fixture は強化要素であり、全ケース必須ではない。
+- public 面は `SWE-bench` 的に薄く、private 面は `IFEval` 的に verifiable な rubric を持つのが望ましい。
 
 ## 弱くしか測れない能力
 - cloud 前提の運用オペレーション。

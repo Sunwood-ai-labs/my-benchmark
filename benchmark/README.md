@@ -12,6 +12,13 @@
 - `pilot_tasks/`: 高摩擦 failure を先に見る 5 ケース。ここは「あなたが怒りやすい失敗」を、説明多めの課題文ではなく、実際の依頼文に近い raw incident replay として測る。
 - `tasks/`: 幅広い実務パターンを測る main corpus。既存 20 ケースに加え、frustration-driven 追加ケースを増やした。
 
+## 既存 benchmark をどう参考にするか
+- 基本形は `SWE-bench` 寄りで、public 側は issue text / 実入力 prompt に近づける。
+- verifier 向け条件は `IFEval` 的に private rubric と auto-check に寄せる。
+- runnable subset の運用は `Terminal-Bench` 的に task pack と execution harness を分ける。
+- UI / real-surface 系だけ `OSWorld` 的に初期状態と完了条件を明確にする。
+- 詳細は [reference_benchmark_alignment.md](/D:/Prj/my-bench/benchmark/research/reference_benchmark_alignment.md) を参照。
+
 ## benchmark 本体と optional 実行層
 - benchmark 本体は `public/problem.md`, `public/context.md`, `shared/meta.yaml`, `private/answer.md`, `private/rubric.md`, `private/traceability.md` の case pack である。
 - ただし pilot の `public/` は、丁寧な課題説明より「実際に飛んできた依頼 + 最低限の環境情報」に寄せる。

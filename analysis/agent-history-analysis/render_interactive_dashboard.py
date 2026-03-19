@@ -35,6 +35,16 @@ def trim_label(value: str, width: int = 28) -> str:
     return textwrap.shorten(text, width=width, placeholder="...")
 
 
+def format_compact_number(value: int | float) -> str:
+    number = float(value)
+    suffixes = [(1_000_000_000, "B"), (1_000_000, "M"), (1_000, "K")]
+    for threshold, suffix in suffixes:
+        if abs(number) >= threshold:
+            compact = number / threshold
+            return f"{compact:.1f}".rstrip("0").rstrip(".") + suffix
+    return f"{int(number):,}"
+
+
 def shorten_origin(agent_family: str, origin: str) -> str:
     if agent_family == "codex" and origin == "local_home":
         return "Codex local"
@@ -460,20 +470,25 @@ def build_layout_chart(layout_summary: dict[str, int]) -> go.Figure:
 def build_cards(summary: dict, token_by_source: pd.DataFrame) -> str:
     top_source = token_by_source.sort_values("total_tokens", ascending=False).iloc[0]
     cards = [
-        ("Messages", f"{summary['message_count']:,}", "Normalized transcript rows"),
-        ("User Prompts", f"{summary['user_message_count']:,}", "Human-authored requests"),
-        ("Sessions", f"{summary['session_count']:,}", "Distinct session or thread ids"),
-        ("Tracked Tokens", f"{summary.get('total_tracked_tokens', 0):,}", "Sessions with token usage"),
-        ("Token Sessions", f"{summary.get('token_session_count', 0):,}", "Claude + Codex sessions"),
-        ("Top Token Source", html.escape(shorten_origin(top_source["agent_family"], top_source["origin"])), f"{int(top_source['total_tokens']):,} total tokens"),
+        ("Messages", format_compact_number(summary["message_count"]), "Normalized transcript rows", f"{summary['message_count']:,}"),
+        ("User Prompts", format_compact_number(summary["user_message_count"]), "Human-authored requests", f"{summary['user_message_count']:,}"),
+        ("Sessions", format_compact_number(summary["session_count"]), "Distinct session or thread ids", f"{summary['session_count']:,}"),
+        ("Tracked Tokens", format_compact_number(summary.get("total_tracked_tokens", 0)), "Sessions with token usage", f"{summary.get('total_tracked_tokens', 0):,}"),
+        ("Token Sessions", format_compact_number(summary.get("token_session_count", 0)), "Claude + Codex sessions", f"{summary.get('token_session_count', 0):,}"),
+        (
+            "Top Token Source",
+            html.escape(shorten_origin(top_source["agent_family"], top_source["origin"])),
+            f"{format_compact_number(int(top_source['total_tokens']))} total tokens",
+            f"{int(top_source['total_tokens']):,} total tokens",
+        ),
     ]
     chunks = []
-    for title, value, subtitle in cards:
+    for title, value, subtitle, exact_value in cards:
         chunks.append(
             f"""
             <article class="stat-card">
               <p class="eyebrow">{title}</p>
-              <h3>{value}</h3>
+              <h3 title="{html.escape(exact_value)}">{value}</h3>
               <p class="subtitle">{subtitle}</p>
             </article>
             """

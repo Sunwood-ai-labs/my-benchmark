@@ -92,6 +92,16 @@ def trim_label(value: str, width: int = 24) -> str:
     return textwrap.shorten(text, width=width, placeholder="...")
 
 
+def format_compact_number(value: int | float) -> str:
+    number = float(value)
+    suffixes = [(1_000_000_000, "B"), (1_000_000, "M"), (1_000, "K")]
+    for threshold, suffix in suffixes:
+        if abs(number) >= threshold:
+            compact = number / threshold
+            return f"{compact:.1f}".rstrip("0").rstrip(".") + suffix
+    return f"{int(number):,}"
+
+
 def bbox_area(bbox: tuple[float, float, float, float]) -> float:
     return max(0.0, bbox[2] - bbox[0]) * max(0.0, bbox[3] - bbox[1])
 
@@ -265,10 +275,10 @@ def render_dashboard(data: dict[str, pd.DataFrame | dict]) -> int:
     fig.subplots_adjust(left=0.06, right=0.985, top=0.93, bottom=0.05, wspace=0.82, hspace=1.22)
 
     cards = [
-        ("Messages", f"{summary['message_count']:,}", "Normalized transcript rows", "#7C5C3B"),
-        ("User Prompts", f"{summary['user_message_count']:,}", "Human-authored requests", "#A25D3D"),
-        ("Sessions", f"{summary['session_count']:,}", "Distinct session / thread ids", "#336B6B"),
-        ("Tool Calls", f"{summary['tool_invocation_count']:,}", "Captured assistant tool invocations", "#495C83"),
+        ("Messages", format_compact_number(summary["message_count"]), "Normalized transcript rows", "#7C5C3B"),
+        ("User Prompts", format_compact_number(summary["user_message_count"]), "Human-authored requests", "#A25D3D"),
+        ("Sessions", format_compact_number(summary["session_count"]), "Distinct session / thread ids", "#336B6B"),
+        ("Tool Calls", format_compact_number(summary["tool_invocation_count"]), "Captured assistant tool invocations", "#495C83"),
     ]
 
     card_axes = [
@@ -407,9 +417,14 @@ def render_token_dashboard(data: dict[str, pd.DataFrame | dict]) -> int:
     fig.subplots_adjust(left=0.07, right=0.98, top=0.91, bottom=0.07, wspace=0.80, hspace=1.18)
 
     cards = [
-        ("Tracked Tokens", f"{summary.get('total_tracked_tokens', 0):,}", "Sessions with token data", "#6C4A4A"),
-        ("Token Sessions", f"{summary.get('token_session_count', 0):,}", "Claude + Codex sessions", "#2F5D62"),
-        ("Top Token Source", trim_label(token_by_source.iloc[0]["label"], 18), f"{int(token_by_source.iloc[0]['total_tokens']):,} total tokens", "#7A5C61"),
+        ("Tracked Tokens", format_compact_number(summary.get("total_tracked_tokens", 0)), "Sessions with token data", "#6C4A4A"),
+        ("Token Sessions", format_compact_number(summary.get("token_session_count", 0)), "Claude + Codex sessions", "#2F5D62"),
+        (
+            "Top Token Source",
+            trim_label(token_by_source.iloc[0]["label"], 18),
+            f"{format_compact_number(int(token_by_source.iloc[0]['total_tokens']))} total tokens",
+            "#7A5C61",
+        ),
     ]
     axes = [
         fig.add_subplot(gs[0:2, 0:4]),

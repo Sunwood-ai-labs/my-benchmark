@@ -1,0 +1,32 @@
+{
+  "run_id": "subagent-live-dry-run-2026-03-19_203942",
+  "date": "2026-03-19",
+  "run_mode": "closed-book case-pack dry-run with live subagents",
+  "pinned_manifest": "benchmark/cases_manifest.jsonl @ 2e7bf03",
+  "cases": [
+    {
+      "case_id": "P001",
+      "score_10": 6.0,
+      "verdict": "strong task fit, but evidence-light",
+      "second_pass_status": "pass",
+      "devil_disposition": "accepted",
+      "material_design_status": "not_applicable"
+    },
+    {
+      "case_id": "P002",
+      "score_10": 6.0,
+      "verdict": "strongest completion logic, but still unproven",
+      "second_pass_status": "pass",
+      "devil_disposition": "requires adjustment",
+      "material_design_status": "not_applicable"
+    },
+    {
+      "case_id": "P005",
+      "score_10": 5.0,
+      "verdict": "good grounding direction, but source proof is still thin",
+      "second_pass_status": "pass",
+      "devil_disposition": "requires adjustment",
+      "material_design_status": "not_applicable"
+    }
+  ]
+}

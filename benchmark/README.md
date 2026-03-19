@@ -81,5 +81,6 @@ manifest、public bundle、split は `node ../scripts/build-benchmark-manifest.m
 - [frustration_signals.md](./research/frustration_signals.md)
 - [casepack_validation.md](./research/casepack_validation.md)
 - [subagent_dry_run_report_2026-03-19.md](./reports/subagent_dry_run_report_2026-03-19.md)
+- [subagent_dry_run_2026-03-19/summary.md](./reports/subagent_dry_run_2026-03-19/summary.md)
 
 legacy mirror として `problem.md`, `context.md`, `answer.md`, `rubric.md` も残すが、canonical surface は `prompt.txt`, `env.md`, `golden.md`, `eval.yaml` である。mirror は保守用であり、model-facing bundle には含めない。

@@ -7,6 +7,8 @@
 - run_mode:
 - pinned_manifest:
 - compared_cases:
+- per_task_reports:
+- score_artifact:
 
 ## Roster
 
@@ -25,6 +27,8 @@
 - score_reason:
 - evidence_used:
 - missing_evidence:
+
+run 本体は summary とリンク集に徹し、詳細は task ごとの report へ逃がしてよい。
 
 ## Actual Agent Behavior
 

@@ -62,6 +62,9 @@ repo root ごと benchmark を渡さない。`private/`、`shared/`、`research/
 
 比較や再採点に使う run report には、最低でも次を書く。
 
+- task ごとの report
+- task ごとの score
+- 機械可読な score artifact
 - case ごとの score
 - score を付けた理由
 - 使った evidence
@@ -70,3 +73,4 @@ repo root ごと benchmark を渡さない。`private/`、`shared/`、`research/
 - run mode の制約
 
 report の雛形は [RUN_REPORT_TEMPLATE.md](./RUN_REPORT_TEMPLATE.md) を使う。
+task ごとの report 雛形は [TASK_REPORT_TEMPLATE.md](./TASK_REPORT_TEMPLATE.md) を使う。

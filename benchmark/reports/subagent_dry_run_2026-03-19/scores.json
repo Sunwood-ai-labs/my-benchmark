@@ -1,0 +1,35 @@
+{
+  "run_id": "subagent-dry-run-2026-03-19",
+  "date": "2026-03-19",
+  "run_mode": "closed-book case-pack dry-run",
+  "pinned_manifest": "benchmark/cases_manifest.jsonl @ 3c9b6aa",
+  "cases": [
+    {
+      "case_id": "P001",
+      "score_internal": 3.0,
+      "score_report_10": 6.0,
+      "verdict": "semantic fit is good, but evidence is thin",
+      "second_pass_status": "pass",
+      "devil_disposition": "accepted",
+      "material_design_status": "not_applicable"
+    },
+    {
+      "case_id": "P002",
+      "score_internal": 3.5,
+      "score_report_10": 7.0,
+      "verdict": "best response in the sample, but still not fully demonstrated",
+      "second_pass_status": "pass",
+      "devil_disposition": "requires adjustment",
+      "material_design_status": "not_applicable"
+    },
+    {
+      "case_id": "P005",
+      "score_internal": 3.0,
+      "score_report_10": 6.0,
+      "verdict": "good grounding direction, but not enough proof",
+      "second_pass_status": "pass",
+      "devil_disposition": "accepted",
+      "material_design_status": "not_applicable"
+    }
+  ]
+}

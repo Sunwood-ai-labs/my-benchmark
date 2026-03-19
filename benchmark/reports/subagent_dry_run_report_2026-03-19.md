@@ -7,6 +7,12 @@
 - `run_mode`: `closed-book case-pack dry-run`
 - `pinned_manifest`: `benchmark/cases_manifest.jsonl @ 3c9b6aa`
 - `compared_cases`: `P001`, `P002`, `P005`
+- `task_reports`:
+  - [summary](./subagent_dry_run_2026-03-19/summary.md)
+  - [P001](./subagent_dry_run_2026-03-19/P001.md)
+  - [P002](./subagent_dry_run_2026-03-19/P002.md)
+  - [P005](./subagent_dry_run_2026-03-19/P005.md)
+  - [scores.json](./subagent_dry_run_2026-03-19/scores.json)
 
 ## Roster
 

@@ -40,6 +40,8 @@ manifest、public bundle、split は `node ../scripts/build-benchmark-manifest.m
   main corpus
 - `research/`
   設計根拠と監査メモ
+- `reports/`
+  実行レポートと score rationale
 - `runtime_fixtures/`
   runnable subset 用 baseline
 - `validation_runs/`
@@ -78,5 +80,6 @@ manifest、public bundle、split は `node ../scripts/build-benchmark-manifest.m
 - [personal_benchmark_spec.md](./research/personal_benchmark_spec.md)
 - [frustration_signals.md](./research/frustration_signals.md)
 - [casepack_validation.md](./research/casepack_validation.md)
+- [subagent_dry_run_report_2026-03-19.md](./reports/subagent_dry_run_report_2026-03-19.md)
 
 legacy mirror として `problem.md`, `context.md`, `answer.md`, `rubric.md` も残すが、canonical surface は `prompt.txt`, `env.md`, `golden.md`, `eval.yaml` である。mirror は保守用であり、model-facing bundle には含めない。

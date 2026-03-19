@@ -57,3 +57,16 @@ repo root ごと benchmark を渡さない。`private/`、`shared/`、`research/
 - dataset score は selected split の active case だけを `benchmark_weight` で重み付けして集計する
 - case に applicable な acceptance signal がない場合、その case の `overall_score` は `capability_score` のみで計算する
 - `delivery_reliability_score` は wrapper / orchestrator を固定した run 群にだけ重ねる
+
+## Run Report Requirements
+
+比較や再採点に使う run report には、最低でも次を書く。
+
+- case ごとの score
+- score を付けた理由
+- 使った evidence
+- 実際の agent / subagent の挙動
+- second-pass / devil audit / material review の結果
+- run mode の制約
+
+report の雛形は [RUN_REPORT_TEMPLATE.md](./RUN_REPORT_TEMPLATE.md) を使う。

@@ -1,0 +1,29 @@
+case_id: "P003"
+score_scale: "1-5"
+benchmark_weight: 5
+task_type: "ui_debug"
+difficulty: "hard"
+status: "active"
+version: "1.3"
+scoring_dimensions:
+  - "UI 実観測の質"
+  - "原因線への一致"
+  - "回帰回避"
+  - "差分の局所性"
+automatic_checks:
+  - "layout 系ファイルに不要な大改変がない"
+  - "selector smoke が通る"
+  - "popup / state drift に触れた観測証拠がある場合は、それを説明に反映している"
+hard_fail_conditions:
+  - "実観測なしでセレクタを推測変更するだけ"
+  - "無関係なレイアウト変更を大量に入れる"
+partial_credit_rules:
+  - "原因推定は当たっていても実観測証拠がなければ 3 点止まり。"
+primary_metrics:
+  - "bugfix_convergence"
+  - "ambiguity_handling"
+secondary_metrics:
+  - "overchange_penalty"
+  - "test_retention"
+acceptance_alignment_signals:
+  - "grounding_before_change"

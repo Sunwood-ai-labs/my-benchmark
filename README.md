@@ -32,8 +32,8 @@
 ## 使い方
 
 1. `benchmark/splits/pilot.txt` か `benchmark/splits/main.txt` から case を選ぶ
-2. モデルには `public/problem.md` と `public/context.md` だけを渡す
-3. evaluator は `private/answer.md` と `private/rubric.md` で採点する
+2. モデルには `public/prompt.txt` と `public/env.md` だけを渡す
+3. evaluator は `private/golden.md` と `private/eval.yaml` で採点する
 4. 必要な case だけ `runtime_fixtures/` で実行確認する
 
 case metadata を更新したら `node scripts/build-benchmark-manifest.mjs` で manifest と split を再生成します。

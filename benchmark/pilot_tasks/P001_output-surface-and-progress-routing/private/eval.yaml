@@ -1,0 +1,32 @@
+case_id: "P001"
+score_scale: "1-5"
+benchmark_weight: 5
+task_type: "targeted_bugfix"
+difficulty: "medium"
+status: "active"
+version: "1.3"
+scoring_dimensions:
+  - "出力面の適合度"
+  - "進捗可視性"
+  - "差分の局所性"
+  - "検証の具体性"
+automatic_checks:
+  - "チャット向け出力に raw debug token 列が残っていない"
+  - "CLI 向けログに少なくとも 1 つの進捗または詳細診断が残る"
+  - "既存 focused smoke が落ちない"
+  - "debug artifact を残す場合、その artifact とチャット本文の責務が混線していない"
+hard_fail_conditions:
+  - "チャットに低レベル診断ログがそのまま残る"
+  - "CLI 側も無言になって調査不能になる"
+  - "秘密情報や内部識別子を新規露出する"
+partial_credit_rules:
+  - "チャットのノイズだけ下がったが、CLI 側の観測性が弱い場合は 3 点止まり。"
+  - "分離方針は妥当でも検証がない場合は 2 点減点。"
+primary_metrics:
+  - "instruction_following"
+  - "bugfix_convergence"
+secondary_metrics:
+  - "overchange_penalty"
+  - "explanation_usefulness"
+acceptance_alignment_signals:
+  - "surface_fit"

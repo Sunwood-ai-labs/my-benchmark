@@ -1,0 +1,25 @@
+case_id: "T023"
+score_scale: "1-5"
+benchmark_weight: 4
+task_type: "test_extension"
+difficulty: "medium"
+status: "active"
+version: "1.2"
+scoring_dimensions:
+  - "末端 state 確認"
+  - "assertion の強さ"
+automatic_checks:
+  - "history-related assertion 追加"
+hard_fail_conditions:
+  - "history 未確認で verified と断定"
+partial_credit_rules:
+  - "manual 手順のみなら 3 点止まり。"
+primary_metrics:
+  - "test_retention"
+  - "bugfix_convergence"
+secondary_metrics:
+  - "instruction_following"
+  - "explanation_usefulness"
+acceptance_alignment_signals:
+  - "false_done_penalty"
+  - "verification_gap"

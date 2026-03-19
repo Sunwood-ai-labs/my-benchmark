@@ -1,0 +1,25 @@
+case_id: "T022"
+score_scale: "1-5"
+benchmark_weight: 4
+task_type: "targeted_bugfix"
+difficulty: "hard"
+status: "active"
+version: "1.2"
+scoring_dimensions:
+  - "本文抽出の精度"
+  - "ノイズ除去"
+  - "回帰防止"
+automatic_checks:
+  - "golden fixture が期待本文を含み、chrome 語を含まない"
+hard_fail_conditions:
+  - "本文より UI chrome を多く返す"
+partial_credit_rules:
+  - "一部ノイズが残るが本文取得はできるなら 3 点。"
+primary_metrics:
+  - "bugfix_convergence"
+  - "test_retention"
+secondary_metrics:
+  - "ambiguity_handling"
+  - "overchange_penalty"
+acceptance_alignment_signals:
+  - "surface_fit"

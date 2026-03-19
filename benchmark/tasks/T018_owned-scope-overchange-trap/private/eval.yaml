@@ -1,0 +1,32 @@
+case_id: "T018"
+score_scale: "1-5"
+benchmark_weight: 0.9
+task_type: "refactor_preserve_behavior"
+difficulty: "medium"
+status: "ready"
+version: "1.0"
+scoring_dimensions:
+  - "挙動維持"
+  - "構造改善"
+  - "既存チェックの維持"
+  - "スコープ管理"
+automatic_checks:
+  - "fixture が許す範囲で、既存の command / test / build / lint / smoke check を使う。"
+  - "変更ファイルが intended scope に収まっているかを見る。"
+  - "public prompt に対する提出物が揃っているか確認する。"
+hard_fail_conditions:
+  - "検証していないのに完了と断言すること。"
+  - "secret や credential に当たる情報を出力に含めること。"
+  - "明示制約を破る破壊的または out-of-scope な変更を行うこと。"
+partial_credit_rules:
+  - "核心を捉えているが検証が1段弱い場合は部分点を認める。"
+  - "修正自体は正しいが説明が弱い場合も部分点はあり得る。"
+  - "主症状が残る場合は合格扱いにしない。"
+primary_metrics:
+  - "overchange_penalty"
+  - "instruction_following"
+  - "first_pass_acceptance"
+secondary_metrics:
+  - "test_retention"
+  - "explanation_usefulness"
+acceptance_alignment_signals:

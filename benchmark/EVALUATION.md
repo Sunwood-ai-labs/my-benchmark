@@ -5,9 +5,9 @@
 ## 基本ループ
 
 1. case を選ぶ
-2. モデルには `public/problem.md` と `public/context.md` だけを渡す
+2. モデルには `public/prompt.txt` と `public/env.md` だけを渡す
 3. repo / fixture の初期状態で解かせる
-4. evaluator は `private/answer.md` と `private/rubric.md` で採点する
+4. evaluator は `private/golden.md` と `private/eval.yaml` で採点する
 5. 必要なら auto-check / runnable fixture を併用する
 
 ## スコアの考え方

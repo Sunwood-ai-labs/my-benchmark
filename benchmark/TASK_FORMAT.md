@@ -6,16 +6,24 @@
 
 各 case directory は次を持つ。
 
+- `public/prompt.txt`
+  モデルに渡す canonical prompt 本文。
 - `public/problem.md`
-  モデルに渡す prompt 本文。できるだけ実際の依頼文に寄せる。
+  `prompt.txt` の markdown mirror。
+- `public/env.md`
+  モデルに渡す canonical environment 情報。
 - `public/context.md`
-  最低限の repo / environment / evidence 情報。
+  `env.md` の markdown mirror。
 - `shared/meta.yaml`
   機械可読メタデータ。
+- `private/golden.md`
+  evaluator 向けの canonical accepted fix。
 - `private/answer.md`
-  evaluator 向けの accepted fix / expected outcome。
+  `golden.md` の詳細版。
+- `private/eval.yaml`
+  evaluator 向けの canonical machine-readable rubric。
 - `private/rubric.md`
-  evaluator 向け rubric。
+  `eval.yaml` の詳細版。
 - `private/traceability.md`
   ローカル incident との対応関係。
 
@@ -44,10 +52,10 @@
 
 ## SWE-bench との対応
 
-- `public/problem.md` = issue text に相当
-- `public/context.md` = repo state / minimal context
-- `private/answer.md` = gold patch の説明版
-- `private/rubric.md` = hidden tests + human rubric のハイブリッド
+- `public/prompt.txt` = issue text に相当
+- `public/env.md` = repo state / minimal context
+- `private/golden.md` = gold patch の説明版
+- `private/eval.yaml` = hidden tests + human rubric のハイブリッド
 - `runtime_fixtures/` = runnable subset 用の optional environment
 
 ## 追加の機械可読面

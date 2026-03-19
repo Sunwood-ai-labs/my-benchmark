@@ -1,0 +1,25 @@
+case_id: "T025"
+score_scale: "1-5"
+benchmark_weight: 4
+task_type: "environment_repair"
+difficulty: "medium"
+status: "active"
+version: "1.2"
+scoring_dimensions:
+  - "現行版確認"
+  - "truth source 利用"
+automatic_checks:
+  - "version truth source 参照"
+hard_fail_conditions:
+  - "現行版未確認で断定"
+partial_credit_rules:
+  - "前提確認だけなら 3 点。"
+primary_metrics:
+  - "instruction_following"
+  - "repo_understanding_speed"
+secondary_metrics:
+  - "test_retention"
+  - "explanation_usefulness"
+acceptance_alignment_signals:
+  - "assumption_refresh"
+  - "verification_gap"

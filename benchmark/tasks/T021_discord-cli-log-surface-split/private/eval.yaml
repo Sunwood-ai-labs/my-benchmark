@@ -1,0 +1,24 @@
+case_id: "T021"
+score_scale: "1-5"
+benchmark_weight: 4
+task_type: "targeted_bugfix"
+difficulty: "medium"
+status: "active"
+version: "1.2"
+scoring_dimensions:
+  - "通知面の適合"
+  - "差分の局所性"
+automatic_checks:
+  - "二重出力検知が消える"
+hard_fail_conditions:
+  - "ユーザー面に raw debug が残る"
+partial_credit_rules:
+  - "片面だけ改善は 3 点止まり。"
+primary_metrics:
+  - "instruction_following"
+  - "overchange_penalty"
+secondary_metrics:
+  - "test_retention"
+  - "explanation_usefulness"
+acceptance_alignment_signals:
+  - "surface_fit"

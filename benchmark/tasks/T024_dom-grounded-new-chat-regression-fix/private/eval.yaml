@@ -1,0 +1,25 @@
+case_id: "T024"
+score_scale: "1-5"
+benchmark_weight: 4
+task_type: "ui_debug"
+difficulty: "hard"
+status: "active"
+version: "1.2"
+scoring_dimensions:
+  - "grounding"
+  - "回帰修正"
+  - "局所性"
+automatic_checks:
+  - "new-chat smoke pass"
+hard_fail_conditions:
+  - "実観測なしの推測修正"
+partial_credit_rules:
+  - "症状は消えるが根拠薄なら 3 点。"
+primary_metrics:
+  - "bugfix_convergence"
+  - "test_retention"
+secondary_metrics:
+  - "ambiguity_handling"
+  - "overchange_penalty"
+acceptance_alignment_signals:
+  - "grounding_before_change"

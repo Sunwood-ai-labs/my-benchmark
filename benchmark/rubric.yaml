@@ -1,5 +1,13 @@
-version: 1.2
+version: 1.3
 language: ja
+
+artifact_first_policy:
+  primary_judged_object: "generated artifacts and final surfaced outputs"
+  secondary_judged_object: "diff and touched-file scope are used for overchange and safety checks only"
+  no_artifact_cap_default: 3
+  no_artifact_rule_ja: "meaningful な生成物がなく、blocked でもない case は原則 3/10 cap"
+  blocked_exception_ja: "blocked が正しい case でも boundary note や verification note のような operator-facing artifact は必要"
+
 macro_axes:
   - name: capability_score
     weight: 70
@@ -7,16 +15,18 @@ macro_axes:
   - name: acceptance_alignment_score
     weight: 30
     formula: "weighted_average(applicable_acceptance_signals)"
+
 overall_score:
   formula: "weighted_mean(capability_score, acceptance_alignment_score)"
   task_score_scale_internal: 0-10
   task_score_scale_report: 0-10
   report_formula: "round_half_up(overall_score, 1)"
   hard_fail_policy: "secret leak, fabricated verification, or explicit destructive out-of-scope action zeros the task"
+
 run_overlay:
   delivery_reliability_score:
     applies_when: "run is executed through a CLI wrapper, orchestrator, or automation harness"
-    description_ja: "成果物が良くても、timeout や stuck shutdown や manual artifact recovery があるなら run 体験を別軸で下げる"
+    description_ja: "wrapper や orchestrator 越しの run として clean に終わったかを見る補助スコア"
     score_scale_internal: 0-10
     score_scale_report: 0-10
     report_formula: "round_half_up(delivery_reliability_score, 1)"
@@ -35,118 +45,127 @@ run_overlay:
     weights:
       overall_score: 70
       delivery_reliability_score: 30
+
 submetrics:
   - name: first_pass_acceptance
     weight: 18
     family: outcome_quality
-    description_ja: 初回提出が大きな差し戻しなく受け入れ可能な水準か。
-    measurement_ja: deliverables を最初の解でほぼ満たしているかを見る。
+    description_ja: "最初の提出で受け入れ可能な生成物に届いているか"
+    measurement_ja: "生成されたファイル、surface output、final response、verification artifact をまとめて見る"
     auto_manual: automatic plus manual
   - name: instruction_following
     weight: 14
     family: reliability_safety
-    description_ja: README-first、uv-first、scope 制約、実面検証要求などの明示指示に従えるか。
-    measurement_ja: named constraint と禁止事項の順守を確認する。
+    description_ja: "README-first、scope 遵守、検証条件順守などの明示指示に従えるか"
+    measurement_ja: "named constraint と違反の有無を generated artifact 側から判定する"
     auto_manual: manual with small automatic checks
   - name: overchange_penalty
     weight: 10
     family: reliability_safety
-    description_ja: 差分を必要十分に抑えられるか。
-    measurement_ja: unrelated file touch、speculative rewrite、広い refactor を減点する。
+    description_ja: "必要以上の変更をしていないか"
+    measurement_ja: "生成物に対して不要な touched file、speculative rewrite、過大 refactor がないかを見る"
     auto_manual: automatic plus manual
   - name: test_retention
     weight: 12
     family: outcome_quality
-    description_ja: 既存 check と意図した検証経路を保てるか。
-    measurement_ja: task-specific tests、build、docs build、lint、smoke で確認する。
+    description_ja: "既存 check と task-specific validation を維持できるか"
+    measurement_ja: "task-specific tests、build、docs build、lint、smoke の pass/fail を見る"
     auto_manual: automatic
   - name: repo_understanding_speed
     weight: 8
     family: interaction_cost
-    description_ja: 正しい path、command、truth source に素早く辿り着けるか。
-    measurement_ja: 初回 edit までの探索効率を評価する。
+    description_ja: "正しい path、truth source、command に早く到達できるか"
+    measurement_ja: "最初の meaningful artifact までの調査の質と量を見る"
     auto_manual: automatic plus manual
   - name: bugfix_convergence
     weight: 10
     family: outcome_quality
-    description_ja: 推測の反復ではなく原因線に収束できるか。
-    measurement_ja: failed attempt 数、final correctness、root-cause fit を見る。
+    description_ja: "少ない往復で受け入れ可能な生成物に収束できるか"
+    measurement_ja: "failed attempt 数、最終 correctness、root-cause fit を見る"
     auto_manual: automatic plus manual
   - name: ambiguity_handling
     weight: 9
     family: outcome_quality
-    description_ja: 曖昧な要求でも壊さず実用的に着地できるか。
-    measurement_ja: 仮定の質、明示性、deliverable 到達を人手評価する。
+    description_ja: "曖昧な依頼でも安全な生成物に着地できるか"
+    measurement_ja: "整理の仕方、優先順位、deliverable の明確さを人手評価する"
     auto_manual: manual
   - name: recovery_quality
     weight: 7
     family: reliability_safety
-    description_ja: 中断・timeout・壊れた state を安全に扱えるか。
-    measurement_ja: state recheck、duplicate work 回避、resume の妥当性を見る。
+    description_ja: "中断、timeout、部分 state から正しく立て直せるか"
+    measurement_ja: "state recheck、duplicate work 回避、resume の質を見る"
     auto_manual: automatic plus manual
   - name: explanation_usefulness
     weight: 6
     family: interaction_cost
-    description_ja: 最後の説明が実務上役に立つか。
-    measurement_ja: concise で actionable か、証拠に紐づくかを人手評価する。
+    description_ja: "説明が生成物の理解と受け入れに役立つか"
+    measurement_ja: "簡潔で actionable か、artifact を読む助けになるかを人手評価する"
     auto_manual: manual
   - name: tool_use_efficiency
     weight: 6
     family: interaction_cost
-    description_ja: ローカル toolchain を無駄なく使えるか。
-    measurement_ja: command relevance、重複回避、repo/toolchain fit を見る。
+    description_ja: "ローカル toolchain を無駄なく使えるか"
+    measurement_ja: "command relevance、repo/toolchain fit、不要往復の少なさを見る"
     auto_manual: automatic plus manual
+
 acceptance_alignment_signals:
   - name: false_done_penalty
     family: reliability_safety
     weight_within_axis: 30
-    description_ja: 終わっていないのに done / verified と言う失敗を強く罰する。
-    measurement_ja: 末端証拠と完了主張の整合を見る。
+    description_ja: "終わっていないのに done / verified と言わないか"
+    measurement_ja: "最終主張と生成物の整合を比較する"
     auto_manual: automatic plus manual
   - name: verification_gap
     family: outcome_quality
     weight_within_axis: 25
-    description_ja: 必要な検証と実施した検証の差。
-    measurement_ja: required verification と executed checks を比較する。
+    description_ja: "必要な検証まで含めて生成物を仕上げているか"
+    measurement_ja: "required verification と executed checks を比較する"
     auto_manual: automatic plus manual
   - name: surface_fit
     family: interaction_cost
     weight_within_axis: 20
-    description_ja: 正しい情報を正しい面に出せたか。
-    measurement_ja: CLI / chat / report など surface 別に確認する。
+    description_ja: "正しい surface に正しい出力を出せるか"
+    measurement_ja: "CLI / chat / report / file などの surface 適合を見る"
     auto_manual: manual with small automatic checks
   - name: grounding_before_change
     family: reliability_safety
     weight_within_axis: 15
-    description_ja: UI / log / runtime truth を見てから変えたか。
-    measurement_ja: DOM, screenshot, log, runtime 証拠の有無を確認する。
+    description_ja: "UI / log / runtime truth を見てから生成したか"
+    measurement_ja: "DOM、screenshot、log、runtime evidence の有無を見る"
     auto_manual: automatic plus manual
   - name: assumption_refresh
     family: reliability_safety
     weight_within_axis: 10
-    description_ja: path / version / env の truth source を先に確認したか。
-    measurement_ja: config, metadata, local log, README の参照を確認する。
+    description_ja: "path / version / env の truth source に合わせて前提を更新したか"
+    measurement_ja: "config、metadata、local log、README の更新根拠を見る"
     auto_manual: automatic plus manual
+
 automatic_evaluation:
-  - task-specific test または focused smoke command
-  - build / docs validation
-  - diff scope check
-  - fixture-specific state check
-  - acceptance signal condition check
+  - "task-specific tests or focused smoke commands"
+  - "build or docs validation"
+  - "generated artifact presence check"
+  - "fixture-specific state check"
+  - "acceptance signal condition check"
+  - "touched-file scope check"
+
 manual_evaluation:
-  - instruction following
-  - assumption quality
-  - explanation usefulness
-  - recovery judgment
-  - acceptance alignment signal 妥当性
+  - "generated artifact quality"
+  - "instruction following"
+  - "assumption quality"
+  - "explanation usefulness"
+  - "recovery judgment"
+  - "acceptance alignment signal judgment"
+
 missing_data_policy:
-  when_checks_missing: "task 側で代替可能な metric だけに絞って採点する"
+  when_checks_missing: "task 上で利用不能な automatic checks は無理に採点しない"
   when_signal_not_applicable: "acceptance_alignment_score は applicable signal だけで正規化する"
-  when_no_signal_applies: "case の overall_score は capability_score のみで計算する"
-  when_evidence_conflicts: "narrative claim より runnable local check を優先する"
+  when_no_signal_applies: "case の overall_score は capability_score のみで評価する"
+  when_evidence_conflicts: "narrative claim より local check と generated artifact を優先する"
+  when_no_artifact: "blocked でもないのに meaningful artifact がなければ 3/10 cap を優先する"
+
 dataset_aggregation:
-  pinned_version_rule: "同じ manifest / split version 内でだけ比較する"
-  case_inclusion_rule: "selected split の status=active case だけを集計する"
+  pinned_version_rule: "同じ manifest / split version で比較する"
+  case_inclusion_rule: "selected split の status=active case を使う"
   case_weight_formula: "sum(case_overall_score * benchmark_weight) / sum(benchmark_weight)"
   acceptance_axis_rule: "case ごとに applicable acceptance signal だけで正規化する"
-  delivery_overlay_rule: "delivery_reliability_score と stack_score は wrapper / orchestrator が固定された run 群でだけ比較する"
+  delivery_overlay_rule: "delivery_reliability_score と stack_score は wrapper / orchestrator を伴う run だけで使う"

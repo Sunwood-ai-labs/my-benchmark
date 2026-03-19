@@ -4,56 +4,74 @@ benchmark_weight: 5
 task_type: "targeted_bugfix"
 difficulty: "medium"
 status: "active"
-version: "1.3"
+version: "1.4"
+
 scoring_dimensions:
-  - "出力面の適合度"
-  - "進捗可視性"
-  - "差分の局所性"
-  - "検証の具体性"
+  - "surface_fit"
+  - "artifact_quality"
+  - "verification_quality"
+  - "scope_control"
+
+artifact_first_policy:
+  primary_artifacts:
+    - "chat-facing output"
+    - "CLI-facing output"
+    - "final response"
+  secondary_scope_checks:
+    - "touched-file locality"
+  no_artifact_cap: 3
+
 automatic_checks:
-  - "チャット向け出力に raw debug token 列が残っていない"
-  - "CLI 向けログに少なくとも 1 つの進捗または詳細診断が残る"
-  - "既存 focused smoke が落ちない"
-  - "debug artifact を残す場合、その artifact とチャット本文の責務が混線していない"
+  - "chat-facing output does not contain raw debug detail"
+  - "CLI-side sample or log shows detailed progress or diagnostics"
+  - "focused smoke passes if runnable"
+
 required_evidence:
-  - "final diff"
   - "final response"
+  - "generated CLI sample or log excerpt"
+  - "generated chat-facing sample if available"
   - "executed check log"
-  - "surface-specific output sample if available"
+  - "artifact reference if debug output was separated"
+
 auto_check_contract:
   - check_id: "chat_surface_clean"
     target: "chat-facing output"
-    pass_when: "raw debug token 列や低レベル診断がチャット面に残っていない"
-    fail_when: "チャット面に内部診断がそのまま流れている"
+    pass_when: "chat-facing output contains short human-readable progress only"
+    fail_when: "raw debug detail or verbose diagnostics leak into the chat surface"
   - check_id: "cli_surface_observable"
-    target: "CLI log"
-    pass_when: "進捗または詳細診断のどちらかが CLI から追える"
-    fail_when: "CLI 側も無言になって調査不能になる"
+    target: "CLI log or sample"
+    pass_when: "CLI-facing output shows detailed progress or diagnostics"
+    fail_when: "CLI side becomes empty, vague, or equivalent to the chat summary"
   - check_id: "focused_smoke_passes"
     target: "existing focused smoke"
-    pass_when: "既存 focused smoke が通る"
-    fail_when: "既存 focused smoke が落ちる"
+    pass_when: "focused smoke passes"
+    fail_when: "focused smoke fails"
+
 hard_fail_conditions:
-  - "チャットに低レベル診断ログがそのまま残る"
-  - "CLI 側も無言になって調査不能になる"
-  - "秘密情報や内部識別子を新規露出する"
+  - "raw debug detail is routed into the chat-facing output"
+  - "CLI-side detailed output disappears completely"
+  - "unrelated subsystems are rewritten to satisfy the case"
+
 partial_credit_rules:
-  - "チャットのノイズだけ下がったが、CLI 側の観測性が弱い場合は 6 点止まり。"
-  - "分離方針は妥当でも実行済み検証がない場合は 6 点上限。"
+  - "routing direction is correct but no generated surface sample or executed log is shown: cap at 6"
+  - "explanation is strong but the operator-facing output is still not demonstrated: cap at 6"
+
 score_anchors:
-  "10": "チャット面のノイズ除去と CLI の可観測性が両立し、実行済み検証も強く、差分も局所。"
-  "9": "ほぼ理想形で、細かな説明不足だけが残る。"
-  "8": "意図した分離は達成し、evidence も十分にある。"
-  "7": "分離方針は良く、検証も概ね妥当だが一段弱い。"
-  "6": "方向性は正しいが、実行済み検証や surface sample が弱い。"
-  "5": "ノイズは減ったが CLI 側の観測性か責務分離の説明が弱い。"
-  "4": "一部改善はあるが、面の責務がまだかなり混線している。"
-  "3": "改善は小さく、routing 問題の中心を捉え切れていない。"
-  "2": "要求理解が弱く、分離より別の話へ逸れている。"
-  "1": "チャットまたは CLI のどちらかを実質的に壊す危険が高い。"
+  "10": "chat and CLI both have correct generated outputs, validation passes, and scope stays tight"
+  "9": "artifact quality is almost complete, with only a minor evidence gap"
+  "8": "surface routing is correct and artifacts are strong, but one verification detail is thin"
+  "7": "artifact direction is correct and mostly usable, but evidence is incomplete"
+  "6": "logic is correct, but generated output samples or execution evidence are thin"
+  "5": "reasoning is plausible, but generated outputs are weak or ambiguous"
+  "4": "partial fix exists, but the surface behavior is still not acceptably demonstrated"
+  "3": "describes a fix but does not produce a meaningful output artifact"
+  "2": "misreads the routing intent or outputs the wrong surface behavior"
+  "1": "routes the wrong content to the wrong surface and breaks the task intent"
+
 aggregation_notes:
-  - "hard fail が成立したら case score は 0"
-  - "automatic_checks と score_anchors が衝突する場合は hard_fail_conditions と focused smoke の結果を優先する"
+  - "hard fail sets the case score to 0"
+  - "if no meaningful generated artifact exists, apply the no_artifact_cap"
+
 primary_metrics:
   - "instruction_following"
   - "bugfix_convergence"

@@ -1,24 +1,30 @@
 # Benchmark
 
-この directory は、ローカル履歴から起こした **personal SWE-bench-style benchmark** です。
+このディレクトリは、ローカル incident を元にした personal SWE-bench-style benchmark です。
 
-## Core idea
+## Core Idea
 
-この benchmark の本体は、説明の整った課題文ではなく、次の組です。
+この benchmark で主に見たいのは、モデルが何を考えたかではなく、最後に何を生成したかです。
 
-- 実際の依頼文に近い `public/prompt.txt`
-- 最低限の `public/env.md`
-- 受け入れ済みの正をまとめた `private/golden.md`
-- hidden evaluator 面の `private/eval.yaml`
+- model-facing input: `public/prompt.txt`, `public/env.md`
+- evaluator-facing truth: `private/golden.md`, `private/eval.yaml`
+- primary judged object: 生成物、最終返答、検証ログ、surface に出た実際の出力
+- secondary judged object: diff や touched-file scope。これは overchange と safety の確認用です
 
-つまり、public は薄く、private は厳しく、runtime は任意です。
+要するに、diff は補助情報であって主役ではありません。あなたが普段そうしているように、この benchmark でも基本は生成物ベースで採点します。
 
-## Dataset surface
+## Artifact-First Rule
+
+- meaningful な生成物がない task は、原則として高得点になりません
+- task に対して意味のある生成物が出ていないのに blocked でもない場合、その case はデフォルトで `3 / 10` を上限にします
+- blocked が許容される case でも、boundary note や verification note などの operator-facing artifact は必要です
+
+## Dataset Surface
 
 - [cases_manifest.jsonl](./cases_manifest.jsonl)
-  model-facing の stripped manifest
+  model-facing stripped manifest
 - [private_cases_manifest.jsonl](./private_cases_manifest.jsonl)
-  evaluator-facing の internal manifest
+  evaluator-facing internal manifest
 - [public_dataset/README.md](./public_dataset/README.md)
   model-facing bundle の説明
 - [splits/pilot.txt](./splits/pilot.txt)
@@ -32,33 +38,34 @@
 
 manifest、public bundle、split は `node ../scripts/build-benchmark-manifest.mjs` で再生成できます。
 
-## Repository layout
+## Repository Layout
 
 - `pilot_tasks/`
-  raw incident replay に近い高摩擦 split
+  pilot case packs
 - `tasks/`
   main corpus
 - `research/`
-  設計根拠と監査メモ
+  design memo と調査結果
 - `reports/`
-  実行レポートと score rationale
+  run ごとの summary、task report、score artifact
 - `runtime_fixtures/`
   runnable subset 用 baseline
 - `validation_runs/`
-  local run artifact
+  local execution artifact
 
-## What is SWE-bench-like here
+## What Is SWE-bench-Like
 
-- public prompt は issue text / 実入力に近い
-- evaluator 側は hidden answer と rubric を持つ
-- split と manifest を dataset として固定する
-- accepted fix を gold 側の基準にする
+- public side は issue-like prompt と minimal env だけ
+- private side は accepted fix と hidden rubric
+- split と manifest を dataset surface として固定
+- runnable fixture は subset のみ
 
-## What is intentionally different
+## What Is Intentionally Different
 
-- 問題は公開 OSS issue ではなく、ローカル incident を匿名化して作る
-- tests-only ではなく、human rubric と acceptance rubric を併用する
-- contamination を避けるため、生 transcript や secret は public に出さない
+- 公開 OSS issue ではなく、ローカル incident を抽象化した case を使う
+- hidden tests だけでなく、acceptance alignment と human rubric を使う
+- transcript や secret を public に出さない
+- diff-first ではなく artifact-first で採点する
 
 ## Quickstart
 
@@ -68,19 +75,17 @@ manifest、public bundle、split は `node ../scripts/build-benchmark-manifest.m
 4. 全体スコアは [rubric.yaml](./rubric.yaml) を使う
 5. runnable case だけ `runtime_fixtures/` と `../scripts/new-validation-run.ps1` を使う
 
-## Packaging rule
+## Packaging Rule
 
-- model-facing bundle は `public_dataset/` を使う
-- `benchmark/` の root 全体は evaluator / curator 向けであり、そのままモデルに見せない
-- `private_cases_manifest.jsonl`、`private/`、`shared/`、`research/` は model-facing bundle に含めない
+- model-facing bundle は `public_dataset/` のみ
+- `private_cases_manifest.jsonl`、`private/`、`shared/`、`research/` は evaluator / curator 用
+- root の `benchmark/` 全体をそのままモデルに見せない
 
-## Research and rationale
+## Research And Rationale
 
 - [reference_benchmark_alignment.md](./research/reference_benchmark_alignment.md)
 - [personal_benchmark_spec.md](./research/personal_benchmark_spec.md)
 - [frustration_signals.md](./research/frustration_signals.md)
 - [casepack_validation.md](./research/casepack_validation.md)
-- [subagent_dry_run_report_2026-03-19.md](./reports/subagent_dry_run_report_2026-03-19.md)
-- [subagent_dry_run_2026-03-19/summary.md](./reports/subagent_dry_run_2026-03-19/summary.md)
 
-legacy mirror として `problem.md`, `context.md`, `answer.md`, `rubric.md` も残すが、canonical surface は `prompt.txt`, `env.md`, `golden.md`, `eval.yaml` である。mirror は保守用であり、model-facing bundle には含めない。
+legacy mirror として `problem.md`, `context.md`, `answer.md`, `rubric.md` も残していますが、canonical surface は `prompt.txt`, `env.md`, `golden.md`, `eval.yaml` です。

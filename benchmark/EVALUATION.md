@@ -1,76 +1,94 @@
 # Evaluation
 
-この benchmark は `public` と `private` を分けて運用する。
+この benchmark は `public` と `private` を分けて運用します。
 
-## 基本ループ
+## Evaluation Loop
 
 1. case を選ぶ
-2. モデルには `public_dataset/` 側の stripped manifest と各 case の `public/` だけを渡す
-3. repo / fixture の初期状態で解かせる
-4. evaluator は `private/golden.md` と `private/eval.yaml` で採点する
-5. 必要なら auto-check / runnable fixture を併用する
+2. モデルには `public_dataset/` 側の manifest と対象 case の `public/` だけを渡す
+3. まず generated artifacts を回収する
+4. その後に evaluator が `private/golden.md` と `private/eval.yaml` で採点する
+5. runnable case なら auto-check を回す
 
-repo root ごと benchmark を渡さない。`private/`、`shared/`、`research/`、internal manifest は evaluator 面である。
+ここでいう generated artifacts には次が含まれます。
 
-## スコアの考え方
+- 生成されたファイル
+- surface に出た実際の出力
+- final response
+- executed check log
+- verification note
+- blocked note
 
-トップレベルは [rubric.yaml](./rubric.yaml) を使う。
+## Artifact-First Scoring
 
-- `capability_score`
-  問題を解けたか
-- `acceptance_alignment_score`
-  あなたの受け入れ条件を外していないか
+- primary judged object: generated artifacts と final surfaced output
+- secondary judged object: diff / touched-file scope
+- diff は overchange と safety の判定に使う。主スコアの中心にはしない
+
+## No-Artifact Cap
+
+- meaningful な生成物がない
+- blocked でもない
+- final response だけで終わっている
+
+この条件なら、その case はデフォルトで `3 / 10` cap にします。
+
+## Score View
+
+トップレベル定義は [rubric.yaml](./rubric.yaml) を使います。
+
+- `overall_score`
+  case pack 自体の canonical score
 - `delivery_reliability_score`
-  wrapper / orchestrator 経由で clean に運用できたか
+  wrapper / orchestrator / automation harness 越しで clean に終わったか
+- `stack_score`
+  上の 2 つを合わせた run-layer score
 
-現在の benchmark は true `0-10` を canonical score として扱う。5 段階を単純に 2 倍表示する運用はやめる。
+この benchmark は true `0-10` を canonical score として使います。
 
-## SWE-bench っぽい運用方針
+## Automatic And Manual Evaluation
 
-- public prompt は薄くする
-- private evaluator 面を厚くする
-- hidden answer を public に漏らさない
-- split は dataset として固定する
-- runnable 環境は subset だけに付ける
+自動評価では主に次を見ます。
 
-## Case 評価の順番
+- task-specific test または focused smoke
+- build / docs validation
+- generated artifact presence
+- fixture-specific state check
+- acceptance signal condition check
+- touched-file scope check
 
-1. `required_evidence` が揃っているかを見る
-2. `auto_check_contract` の pass/fail を埋める
-3. `hard_fail_conditions` を確認する
-4. `score_anchors` に沿って 1-5 を付ける
-5. case weight と split に従って dataset 集計する
+人手評価では主に次を見ます。
 
-## どこまで runnable にするか
-
-全 case を runnable にする必要はない。
-
-- benchmark 本体: case pack
-- optional runtime: `runtime_fixtures/`
-- local run artifacts: `validation_runs/`
-
-この分離で、benchmark 自体と execution harness を混ぜない。
-
-## Dataset 集計
-
-- case comparison は pinned な manifest / split version ごとに行う
-- dataset score は selected split の active case だけを `benchmark_weight` で重み付けして集計する
-- case に applicable な acceptance signal がない場合、その case の `overall_score` は `capability_score` のみで計算する
-- `delivery_reliability_score` は wrapper / orchestrator を固定した run 群にだけ重ねる
+- generated artifact の受け入れ可能性
+- instruction following
+- assumption quality
+- explanation usefulness
+- recovery judgment
+- acceptance alignment
 
 ## Run Report Requirements
 
-比較や再採点に使う run report には、最低でも次を書く。
+各 run report には最低限次を入れます。
 
 - task ごとの report
 - task ごとの score
-- 機械可読な score artifact
-- case ごとの score
-- score を付けた理由
+- machine-readable な score artifact
+- score reason
+- generated outputs
 - 使った evidence
+- 足りなかった evidence
 - 実際の agent / subagent の挙動
 - second-pass / devil audit / material review の結果
-- run mode の制約
+- run mode と制約
 
-report の雛形は [RUN_REPORT_TEMPLATE.md](./RUN_REPORT_TEMPLATE.md) を使う。
-task ごとの report 雛形は [TASK_REPORT_TEMPLATE.md](./TASK_REPORT_TEMPLATE.md) を使う。
+run 全体の雛形は [RUN_REPORT_TEMPLATE.md](./RUN_REPORT_TEMPLATE.md) を使い、task ごとの雛形は [TASK_REPORT_TEMPLATE.md](./TASK_REPORT_TEMPLATE.md) を使います。
+
+## Runnable Subset
+
+全 case を runnable にする必要はありません。
+
+- benchmark 本体は case pack
+- optional runtime は `runtime_fixtures/`
+- local execution artifact は `validation_runs/`
+
+この benchmark では、benchmark 本体と execution harness を分けて扱います。

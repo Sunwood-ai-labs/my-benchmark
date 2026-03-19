@@ -4,64 +4,77 @@ benchmark_weight: 4
 task_type: "environment_repair"
 difficulty: "medium"
 status: "active"
-version: "1.4"
+version: "1.5"
+
 scoring_dimensions:
-  - "前提確認の正確さ"
-  - "truth source の扱い"
-  - "truth source と validation source の区別"
-  - "変更の必要十分性"
+  - "truth_source_grounding"
+  - "artifact_quality"
+  - "validation_quality"
+  - "scope_control"
+
+artifact_first_policy:
+  primary_artifacts:
+    - "generated user-facing artifact"
+    - "executed validation log"
+    - "final response"
+  secondary_scope_checks:
+    - "changed-file locality"
+  no_artifact_cap: 3
+
 automatic_checks:
-  - "path truth source が参照されている"
-  - "version truth source が参照されている"
-  - "誤前提のままの記述が残っていない"
-  - "validation script しか参照していない場合は満点にしない"
-  - "install dir / runtime log / version metadata のどれを使ったかが読める"
-  - "ユーザー向け path 表記が通常の Windows 表記と一致している"
-  - "required validation が最後まで通っている"
+  - "path truth source is referenced"
+  - "version truth source is referenced"
+  - "required validation completes successfully"
+  - "user-facing path stays in normal Windows form"
+
 required_evidence:
-  - "final diff"
   - "final response"
+  - "generated user-facing artifact"
   - "executed validation log"
   - "truth-source references"
+
 auto_check_contract:
   - check_id: "path_source_referenced"
-    target: "final response or changed file"
-    pass_when: "path に関するローカル証拠が参照されている"
-    fail_when: "path を一般論や古い例だけで断定している"
+    target: "final response or generated artifact"
+    pass_when: "path truth source is explicitly referenced"
+    fail_when: "path is guessed from stale defaults or examples"
   - check_id: "version_source_referenced"
-    target: "final response or changed file"
-    pass_when: "version に関するローカル証拠が参照されている"
-    fail_when: "version を古い前提のまま扱う"
+    target: "final response or generated artifact"
+    pass_when: "version truth source is explicitly referenced"
+    fail_when: "version is stated without grounding"
   - check_id: "validation_completed"
     target: "required validation"
-    pass_when: "required validation が最後まで通っている"
-    fail_when: "required validation が fail または未実行のまま完了扱いになる"
+    pass_when: "required validation completes successfully"
+    fail_when: "required validation fails or is skipped without a justified block"
   - check_id: "windows_path_surface"
-    target: "user-facing path text"
-    pass_when: "通常の Windows 表記と一致している"
-    fail_when: "エスケープ混入や不自然な path 表記が残る"
+    target: "user-facing artifact"
+    pass_when: "the user-facing path is written in normal Windows form"
+    fail_when: "the path surface is escaped or otherwise awkward"
+
 hard_fail_conditions:
-  - "未確認の path/version を断定する"
+  - "changes path or version without real grounding"
+
 partial_credit_rules:
-  - "前提は正したが変更や説明が雑な場合は 6 点止まり。"
-  - "exact patch version と version family の差は、それ自体では減点しない。ローカル証拠と整合しているかを優先する。"
-  - "validation script を確認していても、truth source の参照が弱い場合は 6 点以下に留める。"
-  - "required validation が最後まで通っていない場合は 6 点以下に留める。"
-  - "required validation が fail の場合は、通常は 4 点以下に留める。"
+  - "grounding direction is correct but explicit truth-source references are thin: cap at 6"
+  - "validation is attempted but not completed: cap at 6"
+  - "required validation fails: cap at 4"
+
 score_anchors:
-  "10": "path/version の前提確認が正確で、truth source と validation source を混同せず、required validation も通している。"
-  "9": "ほぼ十分で、truth source の整理か説明だけが少し弱い。"
-  "8": "前提確認が良く、source grounding も強い。"
-  "7": "方向性はかなり良いが、実証が一段弱い。"
-  "6": "誤前提は直したが、truth source の参照か validation 完了が弱い。"
-  "5": "前提確認はあるが、source grounding か説明の質が足りない。"
-  "4": "方向性はあるが、前提確認か validation のどちらかがかなり不十分。"
-  "3": "一般論や古い例への依存がまだ強い。"
-  "2": "誤前提が大きく残っており危険。"
-  "1": "未確認の path/version を断定し、要求の中心を外している。"
+  "10": "the user-facing artifact is correct, truth sources are explicit, validation passes, and scope stays tight"
+  "9": "artifact quality is very strong, with only a small grounding gap"
+  "8": "grounding and output are both strong, but one evidence detail is thin"
+  "7": "the direction is right and mostly usable, but proof is still incomplete"
+  "6": "the generated artifact is mostly right, but source proof or validation is incomplete"
+  "5": "good grounding direction, but the artifact is still weak or thinly proven"
+  "4": "some repair exists, but it is not yet acceptable"
+  "3": "describes the repair without producing a meaningful user-facing artifact"
+  "2": "changes path or version with weak grounding"
+  "1": "hallucinates path or version and presents it as verified"
+
 aggregation_notes:
-  - "hard fail が成立したら case score は 0"
-  - "required validation が最後まで通っていない場合は 6 点を上限にする"
+  - "hard fail sets the case score to 0"
+  - "if no meaningful generated artifact exists, apply the no_artifact_cap"
+
 primary_metrics:
   - "repo_understanding_speed"
   - "instruction_following"

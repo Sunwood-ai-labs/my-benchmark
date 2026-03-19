@@ -1,86 +1,111 @@
 # Task Format
 
-この repository では、各 task は `SWE-bench` 風の case pack として持つ。
+この repository の case pack は、SWE-bench 風の split を取りつつ、artifact-first に寄せた format です。
 
-## 基本形
+## Canonical Structure
 
-各 case directory は次を持つ。
+各 case directory は次を持ちます。
 
 - `public/prompt.txt`
-  モデルに渡す canonical prompt 本文。
+  model-facing の canonical prompt
 - `public/problem.md`
-  `prompt.txt` の markdown mirror。
+  `prompt.txt` の markdown mirror
 - `public/env.md`
-  モデルに渡す canonical environment 情報。
+  model-facing の minimal environment description
 - `public/context.md`
-  `env.md` の markdown mirror。
+  `env.md` の markdown mirror
 - `shared/meta.yaml`
-  機械可読メタデータ。
+  machine-readable metadata
 - `private/golden.md`
-  evaluator 向けの canonical accepted fix。
+  canonical accepted fix の要点
 - `private/answer.md`
-  `golden.md` の詳細版。
+  `golden.md` の説明版
 - `private/eval.yaml`
-  evaluator 向けの canonical machine-readable rubric。
+  canonical machine-readable rubric
 - `private/rubric.md`
-  `eval.yaml` の詳細版。
+  `eval.yaml` の説明版
 - `private/traceability.md`
-  ローカル incident との対応関係。
+  local incident との traceability
 
-model-facing bundle では `public/prompt.txt` と `public/env.md` だけを配る。mirror、`shared/`、`private/` は evaluator / curator 用である。
+model-facing bundle は `public/prompt.txt` と `public/env.md` だけです。
 
-## 何を public に置くか
+## Public Side
 
-`public/` は issue text に近い面であり、次だけを置く。
+`public/` は issue-like surface です。ここに置くのは次だけです。
 
-- 実際の依頼文に近い prompt
-- 最低限の環境情報
-- 問題を解くのに必要な観測可能証拠の種類
+- 実際の依頼に近い prompt
+- 最小限の環境情報
+- 実行可能なら最低限の前提
 
 `public/` に置かないもの:
 
-- evaluator 向けの採点観点
-- hidden answer に相当するヒント
-- verifier 向けの細かい採点条件
+- hidden answer
+- evaluator の採点観点
+- 過度なヒント
 
-## 何を private に置くか
+## Private Side
 
-`private/` は hidden evaluator 面であり、次を置く。
+`private/` は hidden evaluator surface です。ここに置くのは次です。
 
-- accepted fix の特徴
+- accepted fix の要点
 - hard fail 条件
-- overchange / false done / verification gap の扱い
+- overchange / false done / verification gap の基準
 - traceability と leakage guardrail
 - required evidence
 - auto-check contract
-- 1-5 score anchor
+- score anchor
 
-## SWE-bench との対応
+## Artifact-First Contract
 
-- `public/prompt.txt` = issue text に相当
-- `public/env.md` = repo state / minimal context
-- `private/golden.md` = gold patch の説明版
-- `private/eval.yaml` = hidden tests + human rubric のハイブリッド
-- `runtime_fixtures/` = runnable subset 用の optional environment
+この benchmark では、主に次を採点します。
 
-## `private/eval.yaml` の最小 contract
+- 生成されたファイル
+- surface に現れた実際の出力
+- 最終返答
+- 実行ログや verification artifact
 
-少なくとも次を持つ。
+diff や touched-file scope は次の確認用です。
+
+- overchange していないか
+- scope を外していないか
+- safety を壊していないか
+
+つまり、primary judged object は patch ではなく generated artifact です。
+
+## No-Artifact Rule
+
+- meaningful な生成物がない case は、原則として高得点にしません
+- blocked が許容される case でも、boundary note や verification note のような operator-facing artifact は必要です
+- meaningful な生成物がなく、blocked でもない場合は `3 / 10` cap を標準にします
+
+## `private/eval.yaml` Contract
+
+`private/eval.yaml` では主に次を定義します。
 
 - `required_evidence`
-  採点時に必ず見る artifact
+  評価時に確認したい artifact
+- `artifact_first_policy`
+  何を primary artifact として見るか、no-artifact cap をどう掛けるか
 - `automatic_checks`
-  自動評価の要点
+  自動評価観点
 - `auto_check_contract`
-  check ごとの target / pass_when / fail_when
+  各 check の target / pass_when / fail_when
 - `hard_fail_conditions`
   即失格条件
-- `score_anchors`
-  1-5 の anchor
 - `partial_credit_rules`
-  満点未満の扱い
+  部分点と cap
+- `score_anchors`
+  true 0-10 anchor
 
-## 追加の機械可読面
+## Relation To SWE-bench
+
+- `public/prompt.txt` = issue text に近い prompt
+- `public/env.md` = repo state / minimal context
+- `private/golden.md` = accepted fix summary
+- `private/eval.yaml` = hidden tests + human rubric の hybrid
+- `runtime_fixtures/` = runnable subset 用 optional environment
+
+## Dataset Surface
 
 - `benchmark/cases_manifest.jsonl`
   model-facing stripped manifest

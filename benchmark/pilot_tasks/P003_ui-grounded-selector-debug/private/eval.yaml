@@ -4,53 +4,71 @@ benchmark_weight: 5
 task_type: "ui_debug"
 difficulty: "hard"
 status: "active"
-version: "1.3"
+version: "1.4"
+
 scoring_dimensions:
-  - "UI 実観測の質"
-  - "原因線への一致"
-  - "回帰回避"
-  - "差分の局所性"
+  - "ui_grounding"
+  - "artifact_quality"
+  - "minimal_change"
+  - "observation_reflection"
+
+artifact_first_policy:
+  primary_artifacts:
+    - "changed UI-facing output"
+    - "selector smoke result"
+    - "final response"
+  secondary_scope_checks:
+    - "layout-related locality"
+  no_artifact_cap: 3
+
 automatic_checks:
-  - "layout 系ファイルに不要な大改変がない"
-  - "selector smoke が通る"
-  - "popup / state drift に触れた観測証拠がある場合は、それを説明に反映している"
+  - "layout-related diff stays local"
+  - "selector smoke passes"
+  - "observation note is reflected in the generated outcome or final response"
+
 required_evidence:
-  - "final diff"
   - "final response"
+  - "generated UI-facing artifact or output sample"
   - "selector smoke result"
   - "UI observation note or artifact if available"
+
 auto_check_contract:
   - check_id: "scope_stays_local"
-    target: "layout-related diff"
-    pass_when: "layout 系ファイルに不要な大改変がない"
-    fail_when: "無関係な layout 変更を広く入れている"
+    target: "layout-related change"
+    pass_when: "the change stays local to the layout-related area"
+    fail_when: "broad unrelated rewrites are introduced"
   - check_id: "selector_smoke_passes"
     target: "selector smoke"
-    pass_when: "selector smoke が通る"
-    fail_when: "selector smoke が落ちる"
+    pass_when: "selector smoke passes"
+    fail_when: "selector smoke fails"
   - check_id: "observation_reflected"
-    target: "final response"
-    pass_when: "popup や state drift に触れた観測証拠があれば説明に反映している"
-    fail_when: "観測したはずの証拠が説明に残っていない"
+    target: "generated outcome or final response"
+    pass_when: "the popup or state-drift observation is reflected"
+    fail_when: "the fix is described without grounding in observation"
+
 hard_fail_conditions:
-  - "実観測なしでセレクタを推測変更するだけ"
-  - "無関係なレイアウト変更を大量に入れる"
+  - "changes selectors without any grounding"
+  - "introduces a broad unrelated UI rewrite"
+
 partial_credit_rules:
-  - "原因推定は当たっていても実観測証拠がなければ 6 点止まり。"
+  - "local fix direction is correct but observation artifacts are missing: cap at 6"
+
 score_anchors:
-  "10": "UI 実観測に基づき原因線に一致する最小差分を入れ、selector smoke も守れている。"
-  "9": "ほぼ理想形で、観測証拠の残し方だけが少し弱い。"
-  "8": "原因線と差分が強く一致し、観測証拠も十分。"
-  "7": "方向性は良く、回帰回避も見えているが一段弱い。"
-  "6": "修正方向は悪くないが、実観測の証拠か回帰回避が弱い。"
-  "5": "推測修正が混ざり、原因線への一致がやや弱い。"
-  "4": "実観測の重みが足りず、変更の局所性も不十分。"
-  "3": "場当たり変更に寄っており、回帰リスクが高い。"
-  "2": "実観測なしの推測変更が中心で危険。"
-  "1": "回帰や過剰変更の危険が非常に高い。"
+  "10": "the fix is grounded in actual observation, generated UI output is acceptable, selector smoke passes, and scope stays local"
+  "9": "observation and artifact quality are both strong, with only a minor gap"
+  "8": "the generated fix is strong and grounded, but one evidence detail is thin"
+  "7": "the local fix is mostly right, but observation evidence is incomplete"
+  "6": "reasonable local fix, but the observation-to-output link is weak"
+  "5": "plausible direction, but the generated UI artifact is still weak"
+  "4": "partial fix exists, but not enough to trust the result"
+  "3": "describes a UI fix without producing a meaningful artifact"
+  "2": "changes UI behavior without grounding"
+  "1": "breaks the UI through ungrounded changes"
+
 aggregation_notes:
-  - "hard fail が成立したら case score は 0"
-  - "実観測証拠がない場合は 6 点を上限にする"
+  - "hard fail sets the case score to 0"
+  - "if no meaningful generated artifact exists, apply the no_artifact_cap"
+
 primary_metrics:
   - "bugfix_convergence"
   - "ambiguity_handling"

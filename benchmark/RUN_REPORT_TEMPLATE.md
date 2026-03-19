@@ -23,15 +23,18 @@
 
 - score_10:
 - verdict:
+- artifact_judgment:
 - score_reason:
+- generated_outputs:
 - evidence_used:
 - missing_evidence:
 
-run 本体は summary とリンク集に徹し、詳細は task ごとの report へ逃がしてよい。
+run 全体の summary では短く書き、詳細は task ごとの report に寄せます。
 
 ## Actual Agent Behavior
 
 - what each producer actually did
+- what it generated
 - where it hesitated, overreached, or recovered
 - whether task contamination or orchestration bias appeared
 

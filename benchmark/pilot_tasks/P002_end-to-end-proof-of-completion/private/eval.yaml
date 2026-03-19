@@ -4,53 +4,71 @@ benchmark_weight: 5
 task_type: "test_extension"
 difficulty: "medium"
 status: "active"
-version: "1.3"
+version: "1.4"
+
 scoring_dimensions:
-  - "完了条件の適切さ"
-  - "末端証拠の強さ"
-  - "既存 harness との整合"
-  - "blocked 時の誠実さ"
+  - "completion_boundary"
+  - "artifact_quality"
+  - "verification_quality"
+  - "blocked_reporting"
+
+artifact_first_policy:
+  primary_artifacts:
+    - "completion proof artifact reference"
+    - "final response"
+    - "executed test or check log"
+  secondary_scope_checks:
+    - "assertion locality"
+  no_artifact_cap: 3
+
 automatic_checks:
-  - "履歴または成果物に対する assertion が追加されている"
-  - "既存 test command が通るか、blocked 理由が明記される"
-  - "completion proof に使う artifact 種別が説明されている"
+  - "completion assertion exists and is tied to a real proof artifact"
+  - "existing check path passes or the blocked state is explicitly justified"
+  - "final response names the completion proof artifact"
+
 required_evidence:
-  - "final diff"
   - "final response"
-  - "executed test or check log"
   - "completion proof artifact reference"
+  - "executed test or check log"
+  - "generated completion-oriented output"
+
 auto_check_contract:
-  - check_id: "terminal_assertion_exists"
+  - check_id: "completion_assertion_exists"
     target: "history or artifact assertion"
-    pass_when: "履歴または成果物を直接見る assertion が追加されている"
-    fail_when: "末端証拠なしに完了だけを主張している"
+    pass_when: "final pass is tied to a real completion proof artifact"
+    fail_when: "done is claimed without a real terminal proof"
   - check_id: "existing_check_path"
     target: "existing test command or blocked explanation"
-    pass_when: "既存 check が通るか、blocked 理由が具体的に残っている"
-    fail_when: "check も blocked 理由も残っていない"
+    pass_when: "an existing check passes or a blocked condition is explicitly justified"
+    fail_when: "neither a check result nor a blocked explanation is provided"
   - check_id: "completion_proof_named"
     target: "final response"
-    pass_when: "completion proof に使う artifact 種別が読める"
-    fail_when: "何をもって完了としたか不明"
+    pass_when: "the final response names the completion proof artifact"
+    fail_when: "the response says done without naming the proof object"
+
 hard_fail_conditions:
-  - "末端証拠なしに完了と断定する"
-  - "存在しないログや成果物を捏造する"
+  - "claims completion without a completion-proof artifact"
+  - "relabels an intermediate signal as final completion"
+
 partial_credit_rules:
-  - "末端状態の候補は示したが実 assertion がない場合は 6 点止まり。"
+  - "completion logic is strong but no concrete proof artifact is surfaced: cap at 6"
+
 score_anchors:
-  "10": "末端証拠に届く assertion と説明があり、blocked 時も誠実で、完了主張が証拠と一致する。"
-  "9": "terminal proof は十分だが、assertion か blocked 説明に軽い弱さがある。"
-  "8": "末端証拠を押さえ、境界説明も明確で、かなり強い。"
-  "7": "方向性は非常に良いが、実 diff や実行済み evidence が一段弱い。"
-  "6": "完了条件の意識は強いが、assertion か artifact naming がまだ薄い。"
-  "5": "terminal proof の方向はあるが、証拠と主張の対応が十分でない。"
-  "4": "完了条件の整理が不十分で、weak proxy に寄っている。"
-  "3": "末端証拠を取りに行く意識が弱く、途中成功との差が曖昧。"
-  "2": "false done 寄りで、要求の中心をかなり外している。"
-  "1": "末端証拠に届いていないのに完了扱いする危険が高い。"
+  "10": "final completion is tied to a concrete proof artifact, checks are run or blocked correctly, and the boundary is explicit"
+  "9": "terminal proof is present, with only a small evidence gap"
+  "8": "completion boundary is correct and artifacts are strong, but one proof detail is thin"
+  "7": "good completion logic and some proof output, but not enough end-state evidence"
+  "6": "strongest logic is present, but proof artifacts or test evidence are still incomplete"
+  "5": "the direction is plausible, but completion proof remains weak"
+  "4": "partial understanding exists, but the terminal boundary is still shaky"
+  "3": "describes the idea without producing a meaningful completion artifact"
+  "2": "leans toward false done"
+  "1": "claims done without real completion proof"
+
 aggregation_notes:
-  - "hard fail が成立したら case score は 0"
-  - "末端証拠の assertion がない場合は 6 点を上限にする"
+  - "hard fail sets the case score to 0"
+  - "if no meaningful generated artifact exists, apply the no_artifact_cap"
+
 primary_metrics:
   - "test_retention"
   - "instruction_following"

@@ -1,7 +1,7 @@
 # Pilot Task Index
 
-pilot は、履歴の中でもユーザー不満が強く出た incident を、説明付き課題ではなく raw incident replay に近い形へ寄せた 5 ケースです。
-public 側は「実際に飛んできた依頼 + 最低限の環境情報」に絞り、詳しい説明や正答のヒントは private 側へ寄せます。
+pilot split は、履歴の中でもユーザー不満が強く出た incident を raw incident replay に近い形へ寄せた 5 ケースです。
+split 定義は [splits/pilot.txt](./splits/pilot.txt) にあり、このページは human-readable な解説 index です。
 
 | 推奨順 | case_id | title | task_type | difficulty | benchmark_weight | acceptance_signal | なぜ pilot に入れたか |
 | --- | --- | --- | --- | --- | --- | --- | --- |

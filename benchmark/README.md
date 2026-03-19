@@ -9,12 +9,13 @@
 - とくに frustration-driven pilot で、地雷を踏まない能力を先に測る。
 
 ## benchmark の二層構造
-- `pilot_tasks/`: 高摩擦 failure を先に見る 5 ケース。ここは「あなたが怒りやすい失敗」を、匿名化した incident frame として強く測る。
+- `pilot_tasks/`: 高摩擦 failure を先に見る 5 ケース。ここは「あなたが怒りやすい失敗」を、説明多めの課題文ではなく、実際の依頼文に近い raw incident replay として測る。
 - `tasks/`: 幅広い実務パターンを測る main corpus。既存 20 ケースに加え、frustration-driven 追加ケースを増やした。
 
 ## benchmark 本体と optional 実行層
 - benchmark 本体は `public/problem.md`, `public/context.md`, `shared/meta.yaml`, `private/answer.md`, `private/rubric.md`, `private/traceability.md` の case pack である。
-- つまり基本形は「Q / A / rubric を履歴から作った評価セット」であり、これだけで採点運用できる。
+- ただし pilot の `public/` は、丁寧な課題説明より「実際に飛んできた依頼 + 最低限の環境情報」に寄せる。
+- つまり基本形は「履歴に近い入力」「受け入れ済みの正」「最低限の rubric」の組であり、説明は private 側へ寄せる。
 - `runtime_fixtures/` は benchmark の補助層で、実行型 agent に対して local workspace 付きで試験したいケースだけに付ける。
 - したがって全 case に runnable fixture が必要なわけではない。fixture がない case も benchmark として成立する。
 
@@ -35,7 +36,7 @@
 - `design_notes.md`: 強く測れる能力と今後の拡張方針。
 
 ## なぜ public / private / shared を分けるか
-- `public/` は評価対象 agent に渡す問題面で、答えの核心を漏らさない。
+- `public/` は評価対象 agent に渡す問題面で、答えの核心を漏らさない。pilot ではヒントを足しすぎず、依頼文として成立する最低限に留める。
 - `private/` は evaluator 用で、期待解・rubric・traceability を持つ。
 - `shared/` は機械処理しやすい metadata を置く。
 

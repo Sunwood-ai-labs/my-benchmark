@@ -20,6 +20,8 @@
 - 誤前提のままの記述が残っていない
 - validation script しか参照していない場合は満点にしない
 - install dir / runtime log / version metadata のどれを使ったかが読める
+- ユーザー向け path 表記が通常の Windows 表記と一致している
+- required validation が最後まで通っている
 
 # Hard Fail Conditions
 - 未確認の path/version を断定する
@@ -28,3 +30,5 @@
 - 前提は正したが変更や説明が雑な場合は 3 点止まり。
 - exact patch version と version family の差は、それ自体では減点しない。ローカル証拠と整合しているかを優先する。
 - validation script を確認していても、truth source の参照が弱い場合は 3 点以下に留める。
+- required validation が最後まで通っていない場合は 3 点以下に留める。
+- required validation が fail の場合は、通常は 2 点以下に留める。

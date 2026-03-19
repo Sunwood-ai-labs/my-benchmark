@@ -43,6 +43,8 @@ Required local evidence:
 
 Required checks before signoff:
 - Run `npm run check:docs`
+- If `npm run check:docs` fails, do not stop at a near miss; keep iterating until it passes.
+- Write the Windows path in normal user-facing form, not as an escaped string literal.
 - In the final response, cite which local files established the true path and version.
 
 Final response requirements:

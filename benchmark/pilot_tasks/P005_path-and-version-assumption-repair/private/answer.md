@@ -5,6 +5,8 @@
 - truth source を先に押さえ、不要な実装を防いでいる。
 - truth source と validation source を混同せず、何が事実確認で何が確認手順かを分けて説明している。
 - install dir、runtime log、version metadata のうち、どれが path と version の根拠だったかを言える。
+- ユーザー向けドキュメントでは、Windows path をエスケープ済み文字列ではなく通常表記で示している。
+- required check が pass してから完了を宣言している。
 
 # Acceptable Variants
 - コード変更なしで前提修正だけでも、要求に合えば可。
@@ -15,9 +17,11 @@
 - 古い version 向けのまま説明する。
 - validation script の期待値だけを見て、実際の truth source を確認しない。
 - install dir や runtime log があるのに README の古い説明だけを信じる。
+- required check を実行しない、または fail のまま完了扱いにする。
 
 # Minimal Pass Line
 - ローカル証拠に基づいて path/version の誤前提を正している。
+- 期待された validation が通る、または通らない理由が benchmark の制約と整合して説明されている。
 
 # Notes For Evaluator
 - 実装量より前提の正しさを重く見る。

@@ -2,7 +2,7 @@
 
 ## Windows setup
 
-- Current Windows config path: `%APPDATA%\\AcmeBench\\config.json`
+- Current Windows config path: `%APPDATA%\AcmeBench\config.json`
 - This guide is verified for AcmeBench 1.x.
 - If you upgrade later, the config path stays the same.
 

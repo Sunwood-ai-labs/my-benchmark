@@ -2,7 +2,8 @@ param(
     [Parameter(Mandatory = $true)]
     [string]$FixtureId,
     [Parameter(Mandatory = $true)]
-    [string]$RunLabel
+    [string]$RunLabel,
+    [string]$DestinationRoot
 )
 
 Set-StrictMode -Version Latest
@@ -27,7 +28,17 @@ if ([string]::IsNullOrWhiteSpace($safeLabel)) {
 }
 
 $runDirName = "{0}_{1}_{2}" -f $stamp, $FixtureId, $safeLabel
-$runRoot = Join-Path $repoRoot "benchmark\validation_runs\$runDirName"
+$destinationBase = if ([string]::IsNullOrWhiteSpace($DestinationRoot)) {
+    Join-Path $repoRoot "benchmark\validation_runs"
+} else {
+    $DestinationRoot
+}
+
+if (-not (Test-Path -LiteralPath $destinationBase)) {
+    New-Item -ItemType Directory -Path $destinationBase -Force | Out-Null
+}
+
+$runRoot = Join-Path $destinationBase $runDirName
 
 if (Test-Path -LiteralPath $runRoot) {
     throw "Run directory already exists: $runRoot"
@@ -47,6 +58,7 @@ $manifest = [ordered]@{
     created_at = (Get-Date).ToString("o")
     run_root = $runRoot
     workspace = (Join-Path $runRoot "workspace")
+    destination_root = $destinationBase
 }
 
 $manifestPath = Join-Path $runRoot "run_manifest.json"

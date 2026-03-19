@@ -1,5 +1,0 @@
-agent_family,origin,root_path,project_jsonl_count,subagent_jsonl_count,team_config_count,task_json_count,todo_json_count,history_exists,fallback_history_used,session_jsonl_count,session_index_exists,state_db_exists
-claude,local_home,C:\Users\Aslan\.claude,85.0,209.0,2.0,0.0,0.0,True,False,,,
-claude,data_snapshot:kali-aslan-20260319,D:\Prj\my-bench\data\kali-aslan-20260319\.claude,7.0,244.0,2.0,10.0,366.0,True,False,,,
-claude,data_snapshot:prox-200-maki-20260319,D:\Prj\my-bench\data\prox-200-maki-20260319\.claude,423.0,601.0,34.0,79.0,455.0,True,False,,,
-codex,local_home,C:\Users\Aslan\.codex,,,,,,,,799.0,True,True
